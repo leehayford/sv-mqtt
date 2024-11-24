@@ -1,0 +1,62 @@
+:root {
+    --lbl-w: 6em;
+    --ctrl-h-l: 2.35em;
+    --ctrl-h-m: 2em;
+    --ctrl-h-s: 1.8em; 
+    --gap: 1em;
+}
+
+* {
+    background-color: transparent; 
+    box-sizing: border-box;
+    padding: 0em;
+    margin: 0em;
+    font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 13px;
+    color: var(--gry07);
+}
+
+h1 { font-size: 2.5em; font-weight: 350; }
+h2 { font-size: 2.1em; font-weight: 300; }
+h3 { font-size: 1.7em; font-weight: 300; }
+h4 { font-size: 1.2em; font-weight: 300; }
+.sml { font-size: 0.9em; color: var(--gry07);  }
+
+
+.row {
+    display: flex;
+    flex-direction: row;
+    width: 100%; 
+    gap: var(--gap);
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    width: 100%; 
+    gap: var(--gap);
+}
+
+input {
+    color: var(--lit06);
+    background-color: var(--aqu01);
+    padding: 0.25em 0.5rem;
+    border-radius: 0.25rem;
+    border-top: solid 0.05em transparent;
+    border-left: solid 0.05em transparent;
+    border-right: solid 0.05em var(--lit01);
+    border-bottom: solid 0.05em var(--lit01);
+    width: 100%;
+}
+input:disabled {
+    color: var(--aqu05);
+    background-color: var(--lit005);
+    padding: 0.25rem 0.5rem;
+    border: 0.1rem solid transparent;
+}
+input:focus { outline: 0.05rem solid var(--acc00); outline-offset: -0.15rem; }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
