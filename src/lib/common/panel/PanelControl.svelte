@@ -4,7 +4,7 @@
     export let height = "var(--ctrl-h-l)"
 </script>
 
-<div class="control" style="height: { height };">
+<div class="control" style="height: {height};">
     <div class="panel-control-lbl" style="color: { lbl_color };">{ lbl }</div>
     <!-- <div class="vert-line" /> -->
     <slot />

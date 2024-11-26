@@ -2,12 +2,15 @@
 
     import { debug } from '$lib/utils'
 
-    export let num = 0.0
-    export let width = "7em"
-    export let height = "var(--ctrl-h-s)"
-    export let dec = 5
-    export let enabled = false
-    export let is_integer = false
+    let {
+        num = $bindable(0.0),
+        width = "7em",
+        height = "var(--ctrl-h-s)", 
+        dec = 5,
+        enabled = false,
+        is_integer = false
+    } = $props()
+
     let place = ( is_integer ? 0 : 0.0 )
 
     const format = ( ) => {
@@ -22,13 +25,12 @@
 </script>
 
 
-<input style="width: { width }; text-align: center; height: { height };"
+<input style="width: {width}; text-align: center; height: {height};"
     step=0.000001
     type="number" 
-    bind:value={ num }
-    placeholder= { place }
-    disabled={ !enabled }
-    on:focusout={ format }
-    on:change
+    bind:value={num}
+    placeholder={place}
+    disabled={!enabled}
+    onfocusout={format}
 >
 

@@ -1,49 +1,48 @@
 <script>
-    import { createEventDispatcher } from 'svelte'
-    const dispatch = createEventDispatcher( )
+    import {createEventDispatcher} from 'svelte'
+    const dispatch = createEventDispatcher()
 
-    import { BASE, RGBA } from '../colors'
+    import {BASE, RGBA} from '../colors'
 
     import defaultImage from '../../assets/Tilde.svg'
-    export let img = defaultImage
-    export let color = RGBA( BASE.ORANGE, 0.7 ) 
-    export let enabled = true
-    export let show = true
-    export let size ='2em' 
-    $: bgColor = ( show ? color : 'transparent' )
-    $: cursor = ( show && enabled ? "pointer" : "default" )
-
-    export let hint = null
-
-    const isHovered = ( ) => dispatch( "show_hint" )
-    const notHovered = ( ) => dispatch( "hide_hint" )
+    let { 
+        img = defaultImage,
+        color = RGBA(BASE.ORANGE, 0.7),
+        enabled = true,
+        show = true,
+        size ='2em',
+        hint = null,
+        func
+    } = $props()
+    
+    let bgColor = $state(show ? color : 'transparent')
+    let cursor = $state(show && enabled ? "pointer" : "default")
+    const isHovered = () => dispatch("show_hint")
+    const notHovered = () => dispatch("hide_hint")
 
 </script>
 
-<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <div 
-    on:click on:keydown  
-    on:mouseover={ isHovered } 
-    on:focus={ isHovered }  
-    on:mouseleave={ notHovered } 
-    on:focusout={ notHovered } 
+    onclick={func} onkeydown={func}  
+    onmouseover={isHovered} 
+    onfocus={isHovered}  
+    onmouseleave={notHovered} 
+    onfocusout={notHovered} 
 
     class="icon"  
-
     style="
-        background-image: url( { img } ); 
-        background-color: { bgColor } ; cursor: { cursor };
-        max-width:  { size };
-        min-width:  { size };
-        max-height:  { size };
-        min-height:  { size };
-        "
-    >
-    { #if hint !== null }
-    <div class="hint" style="
-    color: { bgColor };
-    ">{ hint }</div>
-    { /if }
+        background-image: url({img}); 
+        background-color: {bgColor}; cursor: {cursor};
+        max-width: {size};
+        min-width: {size};
+        max-height: {size};
+        min-height: {size};"
+        >
+
+    {#if hint !== null}
+    <div class="hint" style="color: {bgColor};">{hint}</div>
+    {/if}
 </div>
 
 <style>
