@@ -7,7 +7,7 @@
         width = "7em",
         height = "var(--ctrl-h-s)", 
         dec = 5,
-        enabled = false,
+        enabled = $bindable(false),
         is_integer = false
     } = $props()
 

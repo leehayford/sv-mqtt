@@ -5,6 +5,7 @@
     import {compileModule} from 'svelte/compiler';
 
     let {
+        name = "name",
         colorClear = RGBA(BASE.LIGHT, 0.5),
         colorAlarm = RGBA(BASE.RED, 0.7),
         lblClear = "alarm clear label not set",
@@ -22,6 +23,8 @@
 </script>
 
 <div class="content">
+
+    <div class="row name">{name}</div>
 
     <div class="icon" 
         style="
@@ -41,25 +44,32 @@
 
     .content {
         display: grid;
-        grid-template-columns: var(--ctrl-h-l) 1fr;
+        grid-template-columns: 5em var(--ctrl-h-m) 1fr;
         align-items: center;
-        min-height: var(--ctrl-h-l);
-        max-height: var(--ctrl-h-l);
+        min-height: var(--ctrl-h-m);
+        max-height: var(--ctrl-h-m);
         width:100%;
         padding:0 0.5em;
-        gap:0.5em;
+        gap:0.75em;
+    }
+
+    .name {
+        justify-content: flex-end;
+        align-items: center;
+        /* font-size: 1.25em; */
     }
 
     .icon {
         background-size:cover;
         border-radius: 50%;
         clear:both;
-        max-width: var(--ctrl-h-m);
-        min-width: var(--ctrl-h-m);
-        width: var(--ctrl-h-m);
-        max-height: var(--ctrl-h-m);
-        max-height: var(--ctrl-h-m);
-        height: var(--ctrl-h-m);
+        max-width: var(--ctrl-h-s);
+        min-width: var(--ctrl-h-s);
+        width: var(--ctrl-h-s);
+        max-height: var(--ctrl-h-s);
+        max-height: var(--ctrl-h-s);
+        height: var(--ctrl-h-s);
     }
+
 
 </style>

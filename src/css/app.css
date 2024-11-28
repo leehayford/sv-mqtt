@@ -60,3 +60,10 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+
+.vert-line {
+    border-left: 0.1em solid var(--gry02);
+    padding-right: 0.35em;
+    height: 100%;
+}

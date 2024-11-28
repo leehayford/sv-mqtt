@@ -32,4 +32,28 @@ export class State {
         this.current_height = js.current_height
         this.status = js.status
     }
+
+    toJson = () => {
+        return {
+            estop: this.estop,
+            door_open: this.door_open,
+            fist_limit: this.fist_limit,
+            anvil_limit: this.anvil_limit,
+            top_limit: this.top_limit,
+            pressure: this.pressure,
+            
+            brake_on: this.brake_on,
+            magnet_on: this.magnet_on,
+            motor_on: this.motor_on,
+            
+            cycles_completed: this.cycles_completed,
+            current_height: this.current_height,
+            status: this.status,
+        }
+    }
+    
+    toCMD = () => {
+        return JSON.stringify(this.toJson())
+    }
+
 }

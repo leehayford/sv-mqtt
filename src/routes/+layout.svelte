@@ -1,10 +1,24 @@
 <script>
     
+    import {setContext, getContext, onMount, onDestroy} from 'svelte'
+
     import '../css/app.css'
     import '../css/color.css'
     import '../css/layout.css'
 
     import AlertModal from '$lib/common/modal/AlertModal.svelte'
+
+    import {GZ} from '$lib/models/machine.svelte'
+    // let m = new Machine()
+
+    setContext('gizmo', GZ)
+    onMount(async() => {
+        // if(GZ === {}) createMachine()
+
+        window.onclose = async() => {
+            await GZ.mqttDisconnect();
+        }
+    })
 
 </script>
 
