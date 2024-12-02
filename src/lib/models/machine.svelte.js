@@ -6,22 +6,30 @@ import {ALERT_CODES, alert, waitMilli } from '$lib/utils';
 
 import { State } from "./state.svelte";
 import { Config } from "./config.svelte";
+import { Ops } from './ops.svelte';
 
 const MQTT_PRFX = 'esp32/'
+const MQTT_SIG_PRFX =  MQTT_PRFX + 'sig/'
+const MQTT_CMD_PRFX =  MQTT_PRFX + 'cmd/'
 
 /* MQTT Signal Topics */
-const MQTT_SIG_ALL = MQTT_PRFX + 'sig/#'
-const MQTT_SIG_ERR = MQTT_PRFX + 'sig/error'
-const MQTT_SIG_WARN = MQTT_PRFX + 'sig/warn'
-const MQTT_SIG_SUCCESS = MQTT_PRFX + 'sig/success'
-const MQTT_SIG_STATE = MQTT_PRFX + 'sig/state'
-const MQTT_SIG_CONFIG = MQTT_PRFX + 'sig/config'
-const MQTT_SIG_MOTPOS = MQTT_PRFX + 'sig/motpos'
+const MQTT_SIG_ALL = MQTT_SIG_PRFX + '#'
+const MQTT_SIG_ERR = MQTT_SIG_PRFX + 'error'
+const MQTT_SIG_WARN = MQTT_SIG_PRFX + 'warn'
+const MQTT_SIG_SUCCESS = MQTT_SIG_PRFX + 'success'
+const MQTT_SIG_STATE = MQTT_SIG_PRFX + 'state'
+const MQTT_SIG_CONFIG = MQTT_SIG_PRFX + 'config'
+const MQTT_SIG_OPS = MQTT_SIG_PRFX + 'ops'
+const MQTT_SIG_OPS_POS = MQTT_SIG_PRFX + 'pos'
 
 /* MQTT Command Topics */
-const MQTT_CMD_REPORT = MQTT_PRFX + 'cmd/report'
-const MQTT_CMD_STATE = MQTT_PRFX + 'cmd/state'
-const MQTT_CMD_CONFIG = MQTT_PRFX + 'cmd/config'
+const MQTT_CMD_REPORT = MQTT_SIG_PRFX + 'report'
+const MQTT_CMD_STATE = MQTT_SIG_PRFX + 'state'
+const MQTT_CMD_CONFIG = MQTT_SIG_PRFX + 'config'
+
+const MQTT_CMD_OPS = MQTT_SIG_PRFX + 'ops'
+const MQTT_CMD_OPS_RESET = MQTT_CMD_OPS + 'reset'
+const MQTT_CMD_OPS_CONTINUE = MQTT_CMD_OPS + 'continue'
 
 const MQTT_OPT_KEEP = 60
 const MQTT_OPT_PROT_ID = 'MQTT'
@@ -36,6 +44,7 @@ const MAX_SWING_HEIGHT = 48.00
 export class Machine {
     sta
     cfg
+    ops
 
     mqttClient
     mqttClientID
@@ -47,6 +56,7 @@ export class Machine {
     constructor() { // console.log("New Machine")
         this.sta = new State()
         this.cfg = new Config()
+        this.ops = new Ops()
         this.mqttConnect()
     }
 
@@ -87,21 +97,38 @@ export class Machine {
 
             switch(topic) {
                 case MQTT_SIG_ERR: alert(ALERT_CODES.ERROR, msg); break
+
                 case MQTT_SIG_WARN: alert(ALERT_CODES.WARNING, msg); break
+                
                 case MQTT_SIG_SUCCESS: alert(ALERT_CODES.SUCCESS, msg); break
+
                 case MQTT_SIG_STATE: 
-                    this.sta.parse(msg) 
-                    this.percentComplete = (
-                        this.cfg.cycles == 0 || this.sta.cycles_completed > this.cfg.cycles 
-                        ? 0 
-                        : this.sta.cycles_completed
-                    ) // console.log("this.sta.parse(): ", this.sta)
+                    this.sta.parse(msg)
                     break
+
                 case MQTT_SIG_CONFIG: 
-                    if(this.cfg.run) this.cfg.parse(msg) // console.log("this.cfg.parse(): ", this.cfg)
+                    if( this.cfg.run                                    /* We are running at the moment */ 
+                    ) 
+                        this.cfg.parse(msg)                             // Accept this message from the machine
                     break
-                case MQTT_SIG_MOTPOS: 
-                    this.sta.current_height = Number(msg).toFixed(3)
+
+                case MQTT_SIG_OPS: 
+                    this.ops.parse(msg) 
+
+                    this.percentComplete = (   
+                    (   this.cfg.cycles >= 0                            /* We have a valid cycle setting */
+                    &&  this.ops.cycles_completed <= this.cfg.cycles    /* we have a valid cycle count */
+                    )
+                        ? this.ops.cycles_completed                     // Show the cycle count
+                        : 0                                             // Otherwise, show 0
+                    ) 
+
+                    this.position = Number(this.sta.current_height).toFixed(3)
+
+                    break
+
+                case MQTT_SIG_OPS_POS: 
+                    this.ops.current_height = Number(msg).toFixed(3)
                     this.position = Number(this.sta.current_height).toFixed(3)
                     break
             }
@@ -116,13 +143,18 @@ export class Machine {
         waitMilli(1000);
     }
 
+    /* MQTT publiccations ***************************************************************************/
+
     mqttCMDReport = () => {
         this.mqttPublish(MQTT_CMD_REPORT, 'yaaaaahhhh.....')
     }
+
+    /* State Commands */
     mqttCMDState = () => {
-        this.sta.run = true
         this.mqttPublish(MQTT_CMD_STATE, this.sta.toCMD())
     }
+
+    /* Config Commands */
     mqttCMDConfig = () => {
         this.cfg.run = true
         this.mqttPublish(MQTT_CMD_CONFIG, this.cfg.toCMD())
@@ -133,13 +165,14 @@ export class Machine {
         this.cfg.height = 0.0
         this.mqttPublish(MQTT_CMD_CONFIG, this.cfg.toCMD())
     }
+
+    /* Ops Commands */
+    mqttCMDOps = () => {
+        this.mqttPublish(MQTT_CMD_OPS, this.ops.toCMD())
+    }
+
     mqttPublish = (topic, cmd) => {this.mqttClient.publish(topic, cmd)}
 }
 
 export const GZ = $state(new Machine())
 
-// export const GZ = $state({})
-
-// export const createMachine = () => {
-//     GZ = new Machine()
-// }

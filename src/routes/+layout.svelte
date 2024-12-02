@@ -9,12 +9,10 @@
     import AlertModal from '$lib/common/modal/AlertModal.svelte'
 
     import {GZ} from '$lib/models/machine.svelte'
-    // let m = new Machine()
 
     setContext('gizmo', GZ)
-    onMount(async() => {
-        // if(GZ === {}) createMachine()
 
+    onMount(async() => {
         window.onclose = async() => {
             await GZ.mqttDisconnect();
         }
@@ -48,7 +46,6 @@
     }
 
     .layout {
-        /* background-color: rgb(18, 218, 110, 0.035); */
         background-color: transparent;
         overflow: hidden;
         padding: 0.75em;

@@ -45,19 +45,6 @@
 
     <div class="row">
         
-        <!-- <div class="btn-col">
-            <br>
-            <ButtonIcon func={testPub1} color={RGBA(BASE.LIME, 0.7)} />
-            <ButtonIcon func={testPub2} color={RGBA(BASE.GREEN, 0.7)} />
-            <ButtonIcon func={testPub3} color={RGBA(BASE.BLUE, 0.7)} />
-            <ButtonIcon func={testPub4} color={RGBA(BASE.PINK, 0.7)} />
-            <ButtonIcon func={testPub5} color={RGBA(BASE.PURPLE, 0.7)} />
-            <br>
-            <ButtonIcon func={testAlertE} color={RGBA(BASE.RED, 0.7)} />
-            <ButtonIcon func={testAlertW} color={RGBA(BASE.ORANGE, 0.7)} />
-            <ButtonIcon func={testAlertS} color={RGBA(BASE.SEAFOAM, 0.7)} />
-        </div>
-        <br> -->
         <div class="col">
             <div class="row">
                 <h3>State: </h3>
@@ -82,7 +69,6 @@
                 unit="INCH"
             />
             </PanelControl>
-
 
             <StateIcon bind:alarm={GZ.sta.estop} name="SYSTEM"
             colorClear={colorOK} lblClear="ENABLED"
@@ -116,22 +102,27 @@
             colorClear={colorWarn} lblClear="HAMMER RAISED"
             />
             
+            <StateIcon bind:alarm={GZ.sta.anvil_limit} name="WEIGHT"
+            colorAlarm={colorOK} lblAlarm="HOME"
+            colorClear={colorWarn} lblClear="AWAY"
+            />
+            
 
             
             
             <StateIcon bind:alarm={GZ.sta.brake_on} name="BRAKE"
-            colorClear={colorWarn} lblClear="RELEASED"
-            colorAlarm={colorOK} lblAlarm="ENGAGED"
+            colorClear={colorWarn} lblClear="OFF"
+            colorAlarm={colorOK} lblAlarm="ON"
             />
             
             <StateIcon bind:alarm={GZ.sta.magnet_on} name="MAGNET"
-            colorClear={colorWarn} lblClear="RELEASED"
-            colorAlarm={colorOK} lblAlarm="ENGAGED"
+            colorClear={colorWarn} lblClear="OFF"
+            colorAlarm={colorOK} lblAlarm="ON"
             />
             
             <StateIcon bind:alarm={GZ.sta.motor_on} name="MOTOR"
-            colorClear={colorOK} lblClear="DISABLED"
-            colorAlarm={colorWarn} lblAlarm="ENABLED"
+            colorClear={colorOK} lblClear="OFF"
+            colorAlarm={colorWarn} lblAlarm="ON"
             />
         
         </div>    
