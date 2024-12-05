@@ -40,7 +40,7 @@
     <div class="row header">
         <h1>2Chainz</h1>
         <br>
-        <h3>{GZ.sta.status}</h3>
+        <h3>{GZ.ops.status}</h3>
     </div>
 
     <div class="row">
@@ -102,7 +102,7 @@
             colorClear={colorWarn} lblClear="HAMMER RAISED"
             />
             
-            <StateIcon bind:alarm={GZ.sta.anvil_limit} name="WEIGHT"
+            <StateIcon bind:alarm={GZ.sta.home_limit} name="WEIGHT"
             colorAlarm={colorOK} lblAlarm="HOME"
             colorClear={colorWarn} lblClear="AWAY"
             />

@@ -6,6 +6,7 @@ export class Ops {
     await_help = $state(false)
     recovery = $state(false)
     
+    go_home = $state(false)
     seek_hammer = $state(false)
     seek_anvil = $state(false)
     seek_home = $state(false)
@@ -13,7 +14,9 @@ export class Ops {
     raise_hammer = $state(false)
     drop_hammer = $state(false)
     
-    cycles_completed = $state(0)
+    cycle_count = $state(0)
+    step_target = $state(0)
+    step_hz = $state(0)
     
     status = $state("")
 
@@ -27,6 +30,7 @@ export class Ops {
         this.await_help = js.await_help
         this.recovery = js.recovery
         
+        this.go_home = js.go_home
         this.seek_hammer = js.seek_hammer
         this.seek_anvil = js.seek_anvil
         this.seek_home = js.seek_home
@@ -34,7 +38,9 @@ export class Ops {
         this.raise_hammer = js.raise_hammer
         this.drop_hammer = js.drop_hammer
 
-        this.cycles_completed = js.cycles_completed
+        this.cycle_count = js.cycle_count
+        this.step_target = js.step_target
+        this.step_hz = js.step_hz
 
         this.status = js.status
     }
@@ -48,6 +54,7 @@ export class Ops {
             await_help: this.await_help,
             recovery: this.recovery,
             
+            go_home: this.go_home,
             seek_hammer: this.seek_hammer,
             seek_anvil: this.seek_anvil,
             seek_home: this.seek_home,
@@ -55,7 +62,9 @@ export class Ops {
             raise_hammer: this.raise_hammer,
             drop_hammer: this.drop_hammer,
             
-            cycles_completed: this.cycles_completed,
+            cycle_count: this.cycle_count,
+            step_target: this.step_target,
+            step_hz: this.step_hz,
 
             status: this.status
         }

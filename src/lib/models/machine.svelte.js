@@ -20,14 +20,14 @@ const MQTT_SIG_SUCCESS = MQTT_SIG_PRFX + 'success'
 const MQTT_SIG_STATE = MQTT_SIG_PRFX + 'state'
 const MQTT_SIG_CONFIG = MQTT_SIG_PRFX + 'config'
 const MQTT_SIG_OPS = MQTT_SIG_PRFX + 'ops'
-const MQTT_SIG_OPS_POS = MQTT_SIG_PRFX + 'pos'
+const MQTT_SIG_OPS_POS = MQTT_SIG_OPS + '/pos'
 
 /* MQTT Command Topics */
-const MQTT_CMD_REPORT = MQTT_SIG_PRFX + 'report'
-const MQTT_CMD_STATE = MQTT_SIG_PRFX + 'state'
-const MQTT_CMD_CONFIG = MQTT_SIG_PRFX + 'config'
+const MQTT_CMD_REPORT = MQTT_CMD_PRFX + 'report'
+const MQTT_CMD_STATE = MQTT_CMD_PRFX + 'state'
+const MQTT_CMD_CONFIG = MQTT_CMD_PRFX + 'config'
 
-const MQTT_CMD_OPS = MQTT_SIG_PRFX + 'ops'
+const MQTT_CMD_OPS = MQTT_CMD_PRFX + 'ops'
 const MQTT_CMD_OPS_RESET = MQTT_CMD_OPS + 'reset'
 const MQTT_CMD_OPS_CONTINUE = MQTT_CMD_OPS + 'continue'
 
@@ -117,9 +117,9 @@ export class Machine {
 
                     this.percentComplete = (   
                     (   this.cfg.cycles >= 0                            /* We have a valid cycle setting */
-                    &&  this.ops.cycles_completed <= this.cfg.cycles    /* we have a valid cycle count */
+                    &&  this.ops.cycle_count <= this.cfg.cycles         /* we have a valid cycle count */
                     )
-                        ? this.ops.cycles_completed                     // Show the cycle count
+                        ? this.ops.cycle_count                          // Show the cycle count
                         : 0                                             // Otherwise, show 0
                     ) 
 
@@ -128,8 +128,9 @@ export class Machine {
                     break
 
                 case MQTT_SIG_OPS_POS: 
-                    this.ops.current_height = Number(msg).toFixed(3)
+                    this.sta.current_height = Number(msg).toFixed(3)
                     this.position = Number(this.sta.current_height).toFixed(3)
+                    // console.log("pos: ", this.sta.current_height)
                     break
             }
         
