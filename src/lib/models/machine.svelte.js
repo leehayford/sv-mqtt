@@ -15,8 +15,6 @@ const MQTT_CMD_PRFX =  MQTT_PRFX + 'cmd/'
 /* MQTT Signal Topics */
 const MQTT_SIG_ALL = MQTT_SIG_PRFX + '#'
 const MQTT_SIG_ERR = MQTT_SIG_PRFX + 'error'
-const MQTT_SIG_WARN = MQTT_SIG_PRFX + 'warn'
-const MQTT_SIG_SUCCESS = MQTT_SIG_PRFX + 'success'
 const MQTT_SIG_STATE = MQTT_SIG_PRFX + 'state'
 const MQTT_SIG_CONFIG = MQTT_SIG_PRFX + 'config'
 const MQTT_SIG_OPS = MQTT_SIG_PRFX + 'ops'
@@ -96,11 +94,10 @@ export class Machine {
         this.mqttClient.on('message', (topic, msg, pkt) => { // console.log(`${topic} -> ${msg.toString()}`)
 
             switch(topic) {
-                case MQTT_SIG_ERR: alert(ALERT_CODES.ERROR, msg); break
-
-                case MQTT_SIG_WARN: alert(ALERT_CODES.WARNING, msg); break
-                
-                case MQTT_SIG_SUCCESS: alert(ALERT_CODES.SUCCESS, msg); break
+                case MQTT_SIG_ERR: 
+                    let err = JSON.parse(msg)
+                    alert(err.code, err.message) 
+                    break
 
                 case MQTT_SIG_STATE: 
                     this.sta.parse(msg)
