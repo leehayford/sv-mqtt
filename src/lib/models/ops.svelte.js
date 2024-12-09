@@ -2,7 +2,8 @@ export class Ops {
     await_estop = $state(false)
     await_door = $state(false)
     await_config = $state(false)
-    req_help = $state(false)
+
+    seek_help = $state(false)
     await_help = $state(false)
     recovery = $state(false)
     
@@ -26,8 +27,10 @@ export class Ops {
         this.await_estop = js.await_estop
         this.await_door = js.await_door
         this.await_config = js.await_config
-        this.req_help = js.req_help
+
+        this.seek_help = js.seek_help
         this.await_help = js.await_help
+        
         this.recovery = js.recovery
         
         this.go_home = js.go_home
@@ -50,8 +53,10 @@ export class Ops {
             await_estop: this.await_estop,
             await_door: this.await_door,
             await_config: this.await_config,
-            req_help: this.req_help,
+
+            seek_help: this.seek_help,
             await_help: this.await_help,
+
             recovery: this.recovery,
             
             go_home: this.go_home,
