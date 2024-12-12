@@ -164,7 +164,10 @@
         width: 100%; 
         height: 100%;
     }
-
+    
+    .header {
+        align-items: flex-end;
+    }
     /* .btn-col {
         display: flex;
         flex-direction: column;

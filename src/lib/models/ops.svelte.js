@@ -1,11 +1,11 @@
 export class Ops {
-    await_estop = $state(false)
-    await_door = $state(false)
-    await_config = $state(false)
+    want_estop_release = $state(false)
+    want_door_close = $state(false)
+    want_config = $state(false)
 
-    seek_help = $state(false)
-    await_help = $state(false)
-    recovery = $state(false)
+    request_aid = $state(false)
+    want_aid = $state(false)
+    reorient = $state(false)
     
     go_home = $state(false)
     seek_hammer = $state(false)
@@ -14,6 +14,7 @@ export class Ops {
     
     raise_hammer = $state(false)
     drop_hammer = $state(false)
+    want_strike = $state(false)
     
     cycle_count = $state(0)
     step_target = $state(0)
@@ -24,14 +25,13 @@ export class Ops {
     parse = (msg) => {
         let js = JSON.parse(msg) // console.log("JSON.parse(msg): ", js)
         
-        this.await_estop = js.await_estop
-        this.await_door = js.await_door
-        this.await_config = js.await_config
+        this.want_estop_release = js.want_estop_release
+        this.want_door_close = js.want_door_close
+        this.want_config = js.want_config
 
-        this.seek_help = js.seek_help
-        this.await_help = js.await_help
-        
-        this.recovery = js.recovery
+        this.request_aid = js.request_aid
+        this.want_aid = js.want_aid
+        this.reorient = js.reorient
         
         this.go_home = js.go_home
         this.seek_hammer = js.seek_hammer
@@ -40,6 +40,7 @@ export class Ops {
 
         this.raise_hammer = js.raise_hammer
         this.drop_hammer = js.drop_hammer
+        this.want_strike = js.want_strike
 
         this.cycle_count = js.cycle_count
         this.step_target = js.step_target
@@ -50,14 +51,13 @@ export class Ops {
 
     toJson = () => {
         return {
-            await_estop: this.await_estop,
-            await_door: this.await_door,
-            await_config: this.await_config,
+            want_estop_release: this.want_estop_release,
+            want_door_close: this.want_door_close,
+            want_config: this.want_config,
 
-            seek_help: this.seek_help,
-            await_help: this.await_help,
-
-            recovery: this.recovery,
+            request_aid: this.request_aid,
+            want_aid: this.want_aid,
+            reorient: this.reorient,
             
             go_home: this.go_home,
             seek_hammer: this.seek_hammer,
@@ -66,6 +66,7 @@ export class Ops {
             
             raise_hammer: this.raise_hammer,
             drop_hammer: this.drop_hammer,
+            want_strike: this.want_strike,
             
             cycle_count: this.cycle_count,
             step_target: this.step_target,
