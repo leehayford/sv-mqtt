@@ -35,7 +35,7 @@
 
 </script>
 
-<div class="row control" style="height: {height};">
+<div class="row container" style="height: {height};">
 
     <div class="row title">
         <div style="color: {title_color}">{title}</div>
@@ -68,6 +68,10 @@
 </div>
 
 <style>
+
+    .container {
+        align-items: center;
+    }
 
     .value {   
         align-items: center;

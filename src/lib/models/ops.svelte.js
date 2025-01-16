@@ -81,3 +81,40 @@ export class Ops {
     }
 
 }
+
+
+
+/*
+
+Topic: esp32/sig/ops
+Message: 
+{ 
+    "want_estop_release": true,
+    "want_door_close": true,
+    "want_config": true,
+
+    "request_aid": true,
+    "want_aid": true,
+    "reorient": true,
+
+    "go_home": true,
+    "seek_hammer": true,
+    "seek_anvil": true,
+    "seek_home": true,
+    
+    "raise_hammer": true,
+    "drop_hammer": true,
+    "want_strike": true,
+
+    "cycle_count": 999,
+    "step_target": 1000,
+    "step_hz": 4000,
+
+    "status": "has recived an test ops message"
+}
+
+Topic: esp32/sig/ops/pos
+Message: 23.5
+
+
+*/

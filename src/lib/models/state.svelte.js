@@ -57,3 +57,44 @@ export class State {
     }
 
 }
+
+
+/*
+Topic: esp32/sig/state
+Message: ( ALL GOOD )
+{ 
+    "estop": false,
+    "door_open": false,
+    "fist_limit": true,
+    "anvil_limit": true,
+    "home_limit": true,
+    "top_limit": false,
+    "pressure": false,
+
+    "brake_on": true,
+    "magnet_on": true,
+    "motor_on": false,
+    
+    "motor_steps": 1000,
+    "current_height": 47.9
+}
+    
+Message: ( ALL BAD )
+{ 
+    "estop": true,
+    "door_open": true,
+    "fist_limit": false,
+    "anvil_limit": false,
+    "home_limit": false,
+    "top_limit": true,
+    "pressure": true,
+
+    "brake_on": false,
+    "magnet_on": false,
+    "motor_on": true,
+    
+    "motor_steps": 1000,
+    "current_height": 47.9
+}
+
+*/

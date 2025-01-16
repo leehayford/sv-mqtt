@@ -22,3 +22,15 @@ export class Config {
         return JSON.stringify(this.toJson())
     }
 }
+
+
+/*
+Topic: esp32/sig/config
+Message: 
+{ 
+    "run": true,
+    "cycles": 1000,
+    "height": 47.9
+}
+
+*/

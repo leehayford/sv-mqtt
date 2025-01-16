@@ -1,15 +1,15 @@
 <script>
-    
+
     import {BASE, RGBA} from '../colors'
     import img_led from '../../assets/LED.svg'
-    // import {compileModule} from 'svelte/compiler';
-
+    
     let {
-        name = "name",
+        type = "TYPE",
+        name = "NAME",
         colorClear = RGBA(BASE.LIGHT, 0.03),
         colorAlarm = RGBA(BASE.RED, 0.7),
-        lblClear = "",
-        lblAlarm = "alarm lable not set",
+        lblClear = $bindable(""),
+        lblAlarm = $bindable(""),
         alarm = $bindable(false),
     } = $props()
 
@@ -18,13 +18,12 @@
     let lblText = $state(alarm ? lblAlarm : lblClear)
     let img = img_led
 
-    // $effect(() => {console.log("alarm:", alarm)})
-
 </script>
 
 <div class="content">
 
-    <div class="row name">{name}</div>
+    <div class="row lbl" style="color:{RGBA(BASE.GREY, 0.5)};">{type}</div>
+    <div class="row lbl" style="color:{RGBA(BASE.LIGHT, 0.7)};">{name}</div>
 
     <div class="icon" 
         style="
@@ -40,11 +39,13 @@
 
 </div>
 
+
+
 <style>
 
     .content {
         display: grid;
-        grid-template-columns: 8em var(--ctrl-h-m) 1fr;
+        grid-template-columns: 5em 10em var(--ctrl-h-m) 1fr;
         align-items: center;
         min-height: var(--ctrl-h-m);
         max-height: var(--ctrl-h-m);
@@ -52,11 +53,10 @@
         padding:0 0.5em;
         gap:0.75em;
     }
-
-    .name {
+    
+    .lbl {
         justify-content: flex-end;
         align-items: center;
-        /* font-size: 1.25em; */
     }
 
     .icon {
@@ -70,6 +70,5 @@
         max-height: var(--ctrl-h-s);
         height: var(--ctrl-h-s);
     }
-
 
 </style>

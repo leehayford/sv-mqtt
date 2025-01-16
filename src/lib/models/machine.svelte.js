@@ -4,8 +4,9 @@ import {MQTT_BROKER, MQTT_USER, MQTT_PW} from '$lib/app'
 
 import {ALERT_CODES, alert, waitMilli } from '$lib/utils';
 
-import { State } from "./state.svelte";
-import { Config } from "./config.svelte";
+import { Error } from './error.svelte'
+import { State } from './state.svelte'
+import { Config } from './config.svelte'
 import { Ops } from './ops.svelte';
 
 const MQTT_PRFX = 'esp32/'
@@ -43,6 +44,7 @@ export class Machine {
     sta
     cfg
     ops
+    err
 
     mqttClient
     mqttClientID
@@ -55,6 +57,7 @@ export class Machine {
         this.sta = new State()
         this.cfg = new Config()
         this.ops = new Ops()
+        this.err = new Error()
         this.mqttConnect()
     }
 
@@ -62,7 +65,7 @@ export class Machine {
     mqttConnect = () => {
         
         console.log('MQTT client connecting...')
-        this.mqttClientID = 'esp32_' + Math.random().toString(16).substr(2, 8)
+        this.mqttClientID = '2chainz_' + Math.random().toString(16).substr(2, 8)
         this.mqttClient = mqtt.connect(MQTT_BROKER, {      
             keepalive: MQTT_OPT_KEEP,
             clientId: this.mqttClientID,
@@ -95,18 +98,22 @@ export class Machine {
 
             switch(topic) {
                 case MQTT_SIG_ERR: 
-                    let err = JSON.parse(msg)
-                    alert(err.code, err.message) 
+                    this.err.parse(msg) 
+                    alert(this.err.code, this.err.message) 
+                    console.log(this.err.toJson())
                     break
 
                 case MQTT_SIG_STATE: 
                     this.sta.parse(msg)
+                    console.log(this.sta.toJson())
                     break
 
                 case MQTT_SIG_CONFIG: 
                     if( this.cfg.run                                    /* We are running at the moment */ 
-                    ) 
+                    ) {
                         this.cfg.parse(msg)                             // Accept this message from the machine
+                        console.log(this.cfg.toJson())
+                    }
                     break
 
                 case MQTT_SIG_OPS: 
