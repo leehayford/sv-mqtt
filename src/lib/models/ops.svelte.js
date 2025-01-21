@@ -1,4 +1,7 @@
 export class Ops {
+    
+    diagnostic_mode = $state(false)
+
     want_estop_release = $state(false)
     want_door_close = $state(false)
     want_config = $state(false)
@@ -20,10 +23,12 @@ export class Ops {
     step_target = $state(0)
     step_hz = $state(0)
     
-    status = $state("")
+    status = $state("yearns for purpose...")
 
     parse = (msg) => {
         let js = JSON.parse(msg) // console.log("JSON.parse(msg): ", js)
+        
+        this.diagnostic_mode = js.diagnostic_mode
         
         this.want_estop_release = js.want_estop_release
         this.want_door_close = js.want_door_close
@@ -51,6 +56,8 @@ export class Ops {
 
     toJson = () => {
         return {
+            diagnostic_mode: this.diagnostic_mode,
+
             want_estop_release: this.want_estop_release,
             want_door_close: this.want_door_close,
             want_config: this.want_config,
@@ -89,6 +96,8 @@ export class Ops {
 Topic: esp32/sig/ops
 Message: 
 { 
+    "diagnostic_mode": true,
+
     "want_estop_release": true,
     "want_door_close": true,
     "want_config": true,

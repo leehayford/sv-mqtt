@@ -12,7 +12,9 @@
     import StateIcon from '$lib/common/state_icon/StateIcon.svelte'
     import ProgressBar from '$lib/common/bar_graph/ProgressBar.svelte'
     import BarGaugeH from '$lib/common/bar_graph/BarGaugeH.svelte'
+    import DiagnosticPanel from './DiagnosticPanel.svelte'
     import ButtonIcon from '$lib/common/button_icon/ButtonIcon.svelte'
+    import img_settings from '$lib/assets/Settings.svg'
     import img_accept from '$lib/assets/Accept.svg'
     import img_cancel from '$lib/assets/Cancel.svg'
     import img_reset from '$lib/assets/Reset.svg'
@@ -26,28 +28,30 @@
     let GZ = $state(getContext('gizmo'))
     let cfgEnabled = $state(!GZ.cfg.run)
 
-    const testPub1 = () => {client.publish('lee/test/1', 'mqtt over ws test 1', {qos: 0, retain: false})}
-    const testPub2 = () => {client.publish('lee/test/2', 'mqtt over ws test 2', {qos: 0, retain: false})}
-    const testPub3 = () => {client.publish('lee/test/3', 'mqtt over ws test 3', {qos: 0, retain: false})}
-    const testPub4 = () => {client.publish('lee/test/4', 'mqtt over ws test 4', {qos: 0, retain: false})}
-    const testPub5 = () => {client.publish('lee/test/5', 'mqtt over ws test 5', {qos: 0, retain: false})}
-
-    const testAlertE = () => {alert( ALERT_CODES.ERROR, "test error")}
-    const testAlertW = () => {alert( ALERT_CODES.WARNING, "test warning")}
-    const testAlertS = () => {alert( ALERT_CODES.SUCCESS, "test success")}
 
 </script>
 
 <div class="container">
 
-    <div class="row header">
-        <h1> ~2Chainz</h1>
+    <div class="row">
+        <div class="row hdr-title"> ~2Chainz </div>
         <br>
-        <h3>{GZ.ops.status}</h3>
+        <div class="row hdr-content">
+            <div class="row hdr-status">{GZ.ops.status}</div>
+            {#if !GZ.ops.diagnostic_mode}
+            <ButtonIcon func={GZ.mqttCMDEnableDiagMdoe} img={img_settings} color={RGBA(BASE.PURPLE, 0.7)} />
+            {:else}
+            <ButtonIcon func={GZ.mqttCMDDisableDiagMdoe} img={img_cancel} color={RGBA(BASE.RED, 0.7)} />
+            {/if}
+            
+        </div>
+         
     </div>
 
     <br>
 
+    
+    {#if !GZ.ops.diagnostic_mode}
     <div class="row">
         
         <div class="col">
@@ -108,7 +112,8 @@
         </div>
 
     </div>
-
+    {/if}
+    
     <!-- <br> -->
 
     <div class="row">
@@ -166,8 +171,8 @@
             />
             
             <Indicator bind:alarm={GZ.sta.motor_on} type="RELAY:" name="MOTOR"
-            colorClear={colorOK} lblClear="OFF"
-            colorAlarm={colorWarn} lblAlarm="ON"
+            colorClear={colorWarn} lblClear="OFF"
+            colorAlarm={colorOK} lblAlarm="ON"
             />
         
         </div>    
@@ -175,6 +180,9 @@
 
         <div class="vert-line"></div>
 
+        {#if GZ.ops.diagnostic_mode}
+        <DiagnosticPanel />
+        {:else}
         <div class="col">
 
             <div class="row sec-hdr">
@@ -223,6 +231,7 @@
             />
 
         </div>
+        {/if}
     </div>
 </div>
 
@@ -234,9 +243,21 @@
         width: 100%; 
         height: 100%;
     }
-    
-    .header {
+
+    .hdr-title {
+        width: auto;
         align-items: flex-end;
+        font-size: 2.5em; 
+        font-weight: 350;
+    }
+    .hdr-content {
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+    .hdr-status {
+        align-items: flex-end;
+        font-size: 1.7em; 
+        font-weight: 300;
     }
 
     /* .prog-conf {

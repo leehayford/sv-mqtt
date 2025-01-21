@@ -1,6 +1,6 @@
 
 import mqtt from  'mqtt' // npm install mqtt
-import {MQTT_BROKER, MQTT_USER, MQTT_PW} from '$lib/app'
+import {MQTT_BROKER, MQTT_USER, MQTT_PW, MQTT_DEVICE} from '$lib/app'
 
 import {ALERT_CODES, alert, waitMilli } from '$lib/utils';
 
@@ -9,9 +9,13 @@ import { State } from './state.svelte'
 import { Config } from './config.svelte'
 import { Ops } from './ops.svelte';
 
-const MQTT_PRFX = 'esp32/'
-const MQTT_SIG_PRFX =  MQTT_PRFX + 'sig/'
-const MQTT_CMD_PRFX =  MQTT_PRFX + 'cmd/'
+// const MQTT_PRFX = '002/001/'
+// const MQTT_SIG_PRFX =  MQTT_PRFX + 'sig/'
+// const MQTT_CMD_PRFX =  MQTT_PRFX + 'cmd/'
+
+const MQTT_SIG_PRFX =  MQTT_DEVICE + '/sig/'
+const MQTT_CMD_PRFX =  MQTT_DEVICE + '/cmd/'
+const MQTT_DIAG_PRFX =  MQTT_CMD_PRFX + 'diag/'
 
 /* MQTT Signal Topics */
 const MQTT_SIG_ALL = MQTT_SIG_PRFX + '#'
@@ -29,6 +33,22 @@ const MQTT_CMD_CONFIG = MQTT_CMD_PRFX + 'config'
 const MQTT_CMD_OPS = MQTT_CMD_PRFX + 'ops'
 const MQTT_CMD_OPS_RESET = MQTT_CMD_OPS + 'reset'
 const MQTT_CMD_OPS_CONTINUE = MQTT_CMD_OPS + 'continue'
+
+/* MQTT Diagnostic Command Topics */
+const MQTT_DIAG_ENABLE = MQTT_DIAG_PRFX + 'enable'
+const MQTT_DIAG_DISABLE = MQTT_DIAG_PRFX + 'disable'
+
+const MQTT_DIAG_BRAKE_ON = MQTT_DIAG_PRFX + 'brake_on'
+const MQTT_DIAG_BRAKE_OFF = MQTT_DIAG_PRFX + 'brake_off'
+
+const MQTT_DIAG_MAGNET_ON = MQTT_DIAG_PRFX + 'magnet_on'
+const MQTT_DIAG_MAGNET_OFF = MQTT_DIAG_PRFX + 'magnet_off'
+
+const MQTT_DIAG_MOTOR_ON = MQTT_DIAG_PRFX + 'motor_on'
+const MQTT_DIAG_MOTOR_OFF = MQTT_DIAG_PRFX + 'motor_off'
+const MQTT_DIAG_MOVE_UP = MQTT_DIAG_PRFX + 'move_up'
+const MQTT_DIAG_MOVE_DOWN = MQTT_DIAG_PRFX + 'move_down'
+
 
 const MQTT_OPT_KEEP = 60
 const MQTT_OPT_PROT_ID = 'MQTT'
@@ -175,6 +195,21 @@ export class Machine {
     mqttCMDOps = () => {
         this.mqttPublish(MQTT_CMD_OPS, this.ops.toCMD())
     }
+
+    /* Diagnostic Commands */
+    mqttCMDEnableDiagMdoe = () => { this.mqttPublish(MQTT_DIAG_ENABLE, '') }
+    mqttCMDDisableDiagMdoe = () => { this.mqttPublish(MQTT_DIAG_DISABLE, '') }
+
+    mqttDIAGBrakeOn = () => { this.mqttPublish(MQTT_DIAG_BRAKE_ON, ''); console.log("brake on"); }
+    mqttDIAGBrakeOff = () => { this.mqttPublish(MQTT_DIAG_BRAKE_OFF, ''); console.log("brake off"); }
+    
+    mqttDIAGMagnetOn = () => this.mqttPublish(MQTT_DIAG_MAGNET_ON, '')
+    mqttDIAGMagnetOff = () => this.mqttPublish(MQTT_DIAG_MAGNET_OFF, '')
+    
+    mqttDIAGMotorOn = () => this.mqttPublish(MQTT_DIAG_MOTOR_ON, '')
+    mqttDIAGMotorOff = () => this.mqttPublish(MQTT_DIAG_MOTOR_OFF, '')
+    mqttDIAGMoveUp = () => this.mqttPublish(MQTT_DIAG_MOVE_UP, '')
+    mqttDIAGMoveDown = () => this.mqttPublish(MQTT_DIAG_MOVE_DOWN, '')
 
     mqttPublish = (topic, cmd) => {this.mqttClient.publish(topic, cmd)}
 }

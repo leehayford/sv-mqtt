@@ -12,7 +12,7 @@ License:
 	2. Prohibits <Third Party> from taking any action which might interfere with DataCan's right to use, modify and / or distributre this software in perpetuity.
 */
 
-import { SECRET_MQTT_USER, SECRET_MQTT_PW } from "./secret"
+import { SECRET_MQTT_USER, SECRET_MQTT_PW, SECRET_MQTT_DEVICE } from "./secret"
 
 const APP_VERSION = "0.0.0"
 /* TODO : REPLACE WITH ENV VARIABLES FOR PRODUCTION *******************************/
@@ -28,5 +28,6 @@ export const MQTT_BROKER_WS_PORT = 8083
 export const MQTT_BROKER = `ws://${ MQTT_BROKER_URL }:${MQTT_BROKER_WS_PORT}/mqtt`
 export const MQTT_USER =  SECRET_MQTT_USER
 export const MQTT_PW = SECRET_MQTT_PW
+export const MQTT_DEVICE = SECRET_MQTT_DEVICE
  
 /* TODO : REPLACE WITH ENV VARIABLES FOR PRODUCTION *******************************/

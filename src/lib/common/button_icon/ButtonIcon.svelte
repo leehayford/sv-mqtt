@@ -7,12 +7,12 @@
     import defaultImage from '../../assets/Tilde.svg'
     let { 
         img = defaultImage,
-        color = RGBA(BASE.ORANGE, 0.7),
+        color = $bindable(RGBA(BASE.ORANGE, 0.7)),
         enabled = true,
         show = true,
         size ='2em',
         hint = null,
-        func
+        func = $bindable()
     } = $props()
     
     let bgColor = $state(show ? color : 'transparent')
