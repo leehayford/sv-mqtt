@@ -17,7 +17,7 @@ export class Ops {
     
     raise_hammer = $state(false)
     drop_hammer = $state(false)
-    want_strike = $state(false)
+    want_strike = $state(true)
     
     cycle_count = $state(0)
     step_target = $state(0)

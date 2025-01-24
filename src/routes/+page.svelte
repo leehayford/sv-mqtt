@@ -12,6 +12,10 @@
     import StateIcon from '$lib/common/state_icon/StateIcon.svelte'
     import ProgressBar from '$lib/common/bar_graph/ProgressBar.svelte'
     import BarGaugeH from '$lib/common/bar_graph/BarGaugeH.svelte'
+
+    import KeyPad from './KeyPad.svelte'
+    import IOStatePanel from './IOStatePanel.svelte'
+    import OpStatePanel from './OpStatePanel.svelte'
     import DiagnosticPanel from './DiagnosticPanel.svelte'
     import ButtonIcon from '$lib/common/button_icon/ButtonIcon.svelte'
     import img_settings from '$lib/assets/Settings.svg'
@@ -28,18 +32,36 @@
     let GZ = $state(getContext('gizmo'))
     let cfgEnabled = $state(!GZ.cfg.run)
 
+    let heightKeyPad
 
+    let showQTYKeyPad = $state(false)
+    const openQTYKeyPadModal = () => { showQTYKeyPad = true }
+
+    let showHeightKeyPad = $state(false)
+    const openHeightKeyPadModal = () => { showHeightKeyPad = true }
 </script>
 
 <div class="container">
 
-    <div class="row">
+    <KeyPad title="Drop Quantity"
+    bind:showKeyPad={showQTYKeyPad} 
+    bind:num={GZ.cfg.cycles} 
+    isInteger={true} 
+    />
+    
+    <KeyPad title="Drop Height"
+    bind:showKeyPad={showHeightKeyPad} 
+    bind:num={GZ.cfg.height} 
+    max={48.0}
+    />
+
+    <div class="row hdr">
         <div class="row hdr-title"> ~2Chainz </div>
         <br>
         <div class="row hdr-content">
             <div class="row hdr-status">{GZ.ops.status}</div>
             {#if !GZ.ops.diagnostic_mode}
-            <ButtonIcon func={GZ.mqttCMDEnableDiagMdoe} img={img_settings} color={RGBA(BASE.PURPLE, 0.7)} />
+            <ButtonIcon func={GZ.mqttCMDEnableDiagMdoe} img={img_settings} color={RGBA(BASE.PINK, 0.7)} />
             {:else}
             <ButtonIcon func={GZ.mqttCMDDisableDiagMdoe} img={img_cancel} color={RGBA(BASE.RED, 0.7)} />
             {/if}
@@ -52,35 +74,39 @@
 
     
     {#if !GZ.ops.diagnostic_mode}
-    <div class="row">
+    <div class="col controls">
         
         <div class="col">
             <div class="row sec-hdr">
                 <h3>Configuration:</h3>
+                
+                <div class="row conf-btns">
+                    {#if GZ.cfg.run}
+                    <ButtonIcon func={GZ.mqttCMDCancel} img={img_reset} color={RGBA(BASE.AQUA, 0.7)} />
+                    <ButtonIcon func={GZ.mqttCMDCancel} img={img_cancel} color={RGBA(BASE.RED, 0.7)} />
+                    {:else}
+                    <ButtonIcon func={GZ.mqttCMDConfig} img={img_accept} color={RGBA(BASE.SEAFOAM, 0.7)} />
+                    {/if}
+                </div>
+
             </div>
-            <PanelControl>
-                <div class="control-num">
-                    <p>Enter drop quantity</p>
-                    <InputNum width="100%" bind:enabled={cfgEnabled} height="var(--ctrl-h-s)" 
-                        bind:num={GZ.cfg.cycles} is_integer={true}/>
+            <PanelControl >
+                <!-- svelte-ignore a11y_no_static_element_interactions -->
+                <div class="control-num" onclick={openQTYKeyPadModal} onkeydown={openQTYKeyPadModal} >
+                    <div class="control-num-title"># of Drops</div>
+                    <div class="conf-value">{GZ.cfg.cycles}</div>
                     <div>QTY</div>
                 </div>
             </PanelControl>
             <PanelControl>
-                <div class="control-num">
-                    <p>Enter drop height</p>
-                    <InputNum width="100%" bind:enabled={cfgEnabled} height="var(--ctrl-h-s)" 
-                        bind:num={GZ.cfg.height}/>
+                <!-- svelte-ignore a11y_no_static_element_interactions -->
+                <div class="control-num" onclick={openHeightKeyPadModal} onkeydown={openHeightKeyPadModal} >
+                    <div class="control-num-title">Drop Height</div>
+                    <div class="conf-value">{GZ.cfg.height.toFixed(2)}</div>
                     <div>INCH</div>
                 </div>
             </PanelControl>
-            <div class="row conf-btns">
-                {#if GZ.cfg.run}
-                <ButtonIcon func={GZ.mqttCMDCancel} img={img_cancel} color={RGBA(BASE.RED, 0.7)} />
-                {:else}
-                <ButtonIcon func={GZ.mqttCMDConfig} img={img_accept} color={RGBA(BASE.SEAFOAM, 0.7)} />
-                {/if}
-            </div>
+
         </div>
 
         <div class="vert-line"></div>
@@ -103,8 +129,8 @@
             <BarGaugeH  
                 color={BASE.SEAFOAM}
                 bind:num={GZ.position}
-                max={GZ.cfg.height}
-                dec=3
+                max={(GZ.cfg.height === 0 ? 48 : GZ.cfg.height)}
+                dec=2
                 title="Position"
                 unit="INCH"
             />
@@ -113,125 +139,20 @@
 
     </div>
     {/if}
-    
-    <!-- <br> -->
+
 
     <div class="row">
         
-        <div class="col">
+        <IOStatePanel />
 
-            <div class="row sec-hdr">
-                <h3>IO State: </h3>
-                <!-- <ButtonIcon func={GZ.mqttCMDReport} img={img_question} color={RGBA(BASE.MAGENTA, 0.7)} /> -->
-            </div>
-
-            <Indicator bind:alarm={GZ.sta.estop} type="SWITCH:" name="E-STOP"
-            colorClear={colorOK} lblClear="CLEAR"
-            colorAlarm={colorFault} lblAlarm="EMERGENCY STOP"
-            />
-
-            <Indicator bind:alarm={GZ.sta.pressure} type="SWITCH:" name="PRESSURE"
-            colorClear={colorOK} lblClear="PRESSURE OK"
-            colorAlarm={colorFault} lblAlarm="PRESSURE FAULT"
-            />
-            
-            <Indicator bind:alarm={GZ.sta.door_open} type="LIMIT:" name="DOOR"
-            colorClear={colorOK} lblClear="CLOSED"
-            colorAlarm={colorFault} lblAlarm="OPEN"
-            />
-
-            <Indicator bind:alarm={GZ.sta.top_limit} type="LIMIT:" name="TOP"
-            colorClear={colorOK} lblClear="CLEAR"
-            colorAlarm={colorFault} lblAlarm="FAULT"
-            />
-
-            <Indicator bind:alarm={GZ.sta.fist_limit} type="LIMIT:" name="FIST"
-            colorAlarm={colorOK} lblAlarm="HAMMER LOCATED"
-            colorClear={colorWarn} lblClear="HAMMER FREE"
-            />
-            
-            <Indicator bind:alarm={GZ.sta.anvil_limit} type="PROXIMITY:" name="ANVIL"
-            colorAlarm={colorOK} lblAlarm="HAMMER DOWN"
-            colorClear={colorWarn} lblClear="HAMMER RAISED"
-            />
-            
-            <Indicator bind:alarm={GZ.sta.home_limit} type="LIMIT:" name="HOME"
-            colorAlarm={colorOK} lblAlarm="HOME"
-            colorClear={colorWarn} lblClear="FIST RAISED"
-            />
-            
-            <Indicator bind:alarm={GZ.sta.brake_on} type="RELAY:" name="BRAKE"
-            colorClear={colorWarn} lblClear="OFF"
-            colorAlarm={colorOK} lblAlarm="ON"
-            />
-            
-            <Indicator bind:alarm={GZ.sta.magnet_on} type="RELAY:" name="MAGNET"
-            colorClear={colorWarn} lblClear="OFF"
-            colorAlarm={colorOK} lblAlarm="ON"
-            />
-            
-            <Indicator bind:alarm={GZ.sta.motor_on} type="RELAY:" name="MOTOR"
-            colorClear={colorWarn} lblClear="OFF"
-            colorAlarm={colorOK} lblAlarm="ON"
-            />
-        
-        </div>    
-        
-
-        <div class="vert-line"></div>
+        <!-- <div class="vert-line"></div>
 
         {#if GZ.ops.diagnostic_mode}
         <DiagnosticPanel />
         {:else}
-        <div class="col">
+        <OpStatePanel />
+        {/if} -->
 
-            <div class="row sec-hdr">
-                <h3>Run State: </h3>
-                <!-- <p>{GZ.err.message}</p> -->
-            </div>
-
-            <Indicator bind:alarm={GZ.ops.want_estop_release} type="ALARM:" name="E-STOP"
-            colorAlarm={colorFault} lblAlarm="EMERGENCY STOP"
-            />
-            
-            <Indicator bind:alarm={GZ.ops.want_door_close} type="ALARM:" name="DOOR"
-            colorAlarm={colorFault} 
-            />
-            
-            <Indicator bind:alarm={GZ.ops.want_aid} type="ALARM:" name="ERROR"
-            colorAlarm={colorFault} 
-            />
-            
-            <Indicator bind:alarm={GZ.ops.want_config} type="PROMPT:" name="CONFIG"
-            colorAlarm={colorWarn} 
-            />
-
-            <Indicator bind:alarm={GZ.ops.seek_hammer} type="OPERATION:" name="HAMMER"
-            colorAlarm={colorOK} 
-            />
-            
-            <Indicator bind:alarm={GZ.ops.seek_anvil} type="OPERATION:" name="ANVIL"
-            colorAlarm={colorOK} 
-            />
-            
-            <Indicator bind:alarm={GZ.ops.seek_home} type="OPERATION:" name="HOME"
-            colorAlarm={colorOK} 
-            />
-
-            <Indicator bind:alarm={GZ.ops.raise_hammer} type="OPERATION:" name="RAISE"
-            colorAlarm={colorOK} 
-            />
-
-            <Indicator bind:alarm={GZ.ops.drop_hammer} type="OPERATION:" name="DROP"
-            colorAlarm={colorOK} 
-            />
-
-            <Indicator bind:alarm={GZ.ops.want_strike} type="OPERATION:" name="STRIKE"
-            colorAlarm={colorOK} 
-            />
-
-        </div>
-        {/if}
     </div>
 </div>
 
@@ -239,12 +160,17 @@
     .container {
         display: flex;
         flex-direction: column;
-        padding: 0 25%;
         width: 100%; 
         height: 100%;
+        gap:0;
     }
 
+    .hdr {
+        padding-bottom: 0.5em;
+        border-bottom: solid 0.1em var(--gry02);
+    }
     .hdr-title {
+        color: var(--aqu07);
         width: auto;
         align-items: flex-end;
         font-size: 2.5em; 
@@ -255,36 +181,57 @@
         justify-content: space-between;
     }
     .hdr-status {
+        color: var(--pnk06);
         align-items: flex-end;
         font-size: 1.7em; 
         font-weight: 300;
     }
 
-    /* .prog-conf {
-        display: grid;
-        grid-template-columns: 1fr 1em 1fr;
-    } */
-
     .sec-hdr {
         align-items: flex-end;
         justify-content: space-between;
         border-bottom: solid 0.1em var(--gry02);
+        padding-bottom: 0.25em;
     }
     .sec-hdr h3 {
         color: var(--gry06);
     }
 
+    .controls {
+        padding-bottom: 1em;
+    }
+
     .control-num {
         display: grid;
-        grid-template-columns: 1fr 1fr 3em;
+        grid-template-columns: 1fr 1fr 5em;
         align-items: center;
         min-height: 2.5em;
-        gap:0.5em;
+        gap:0.75em;
+    }
+    .control-num-title {
+        color: var(--aqu07);
+        font-size: 1.5em; 
+        font-weight: 300;
+        padding-left: 1em;
+    } 
+
+    .conf-value {
+        font-size: 1.7em; 
+        font-weight: 300;
+        color: var(--aqu07);
+        background-color: var(--aqu01);
+        border-top: solid 0.05em transparent;
+        border-left: solid 0.05em transparent;
+        border-right: solid 0.05em var(--lit01);
+        border-bottom: solid 0.05em var(--lit01);
+        border-radius: 0.15em;
+        padding: 0 0.5em;
     }
 
     .conf-btns {
         justify-content: flex-end;
         /* padding-right: 1.5em; */
     }
+
 
 </style>

@@ -44,10 +44,9 @@ const MQTT_DIAG_BRAKE_OFF = MQTT_DIAG_PRFX + 'brake_off'
 const MQTT_DIAG_MAGNET_ON = MQTT_DIAG_PRFX + 'magnet_on'
 const MQTT_DIAG_MAGNET_OFF = MQTT_DIAG_PRFX + 'magnet_off'
 
-const MQTT_DIAG_MOTOR_ON = MQTT_DIAG_PRFX + 'motor_on'
-const MQTT_DIAG_MOTOR_OFF = MQTT_DIAG_PRFX + 'motor_off'
 const MQTT_DIAG_MOVE_UP = MQTT_DIAG_PRFX + 'move_up'
 const MQTT_DIAG_MOVE_DOWN = MQTT_DIAG_PRFX + 'move_down'
+const MQTT_DIAG_MOTOR_STOP = MQTT_DIAG_PRFX + 'motor_stop'
 
 
 const MQTT_OPT_KEEP = 60
@@ -206,10 +205,9 @@ export class Machine {
     mqttDIAGMagnetOn = () => this.mqttPublish(MQTT_DIAG_MAGNET_ON, '')
     mqttDIAGMagnetOff = () => this.mqttPublish(MQTT_DIAG_MAGNET_OFF, '')
     
-    mqttDIAGMotorOn = () => this.mqttPublish(MQTT_DIAG_MOTOR_ON, '')
-    mqttDIAGMotorOff = () => this.mqttPublish(MQTT_DIAG_MOTOR_OFF, '')
     mqttDIAGMoveUp = () => this.mqttPublish(MQTT_DIAG_MOVE_UP, '')
     mqttDIAGMoveDown = () => this.mqttPublish(MQTT_DIAG_MOVE_DOWN, '')
+    mqttDIAGMotorStop = () => this.mqttPublish(MQTT_DIAG_MOTOR_ON, '')
 
     mqttPublish = (topic, cmd) => {this.mqttClient.publish(topic, cmd)}
 }

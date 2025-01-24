@@ -1,7 +1,6 @@
 <script>
     
     import {getContext} from 'svelte'
-    import {Machine} from '$lib/models/machine.svelte'
 
     import {RGBA, BASE} from '$lib/common/colors'
 
@@ -13,7 +12,6 @@
 
     let brake = $derived(GZ.sta.brake_on)
     let magnet = $derived(GZ.sta.magnet_on)
-    let motor = $derived(GZ.sta.motor_on)
 
 
 </script>
@@ -33,7 +31,7 @@
             <ButtonIcon func={GZ.mqttDIAGBrakeOff} img={img_led} color={RGBA(BASE.SEAFOAM, 0.7)} />
             <p>ON</p>
             {:else}
-            <ButtonIcon func={GZ.mqttDIAGBrakeOn} img={img_led} color={RGBA(BASE.SEAFOAM, 0.1)} />
+            <ButtonIcon func={GZ.mqttDIAGBrakeOn} img={img_led} color={RGBA(BASE.SEAFOAM, 0.2)} />
             <p>OFF</p>
             {/if}
         </div>
@@ -46,20 +44,7 @@
             <ButtonIcon func={GZ.mqttDIAGMagnetOff} img={img_led} color={RGBA(BASE.SEAFOAM, 0.7)} />
             <p>ON</p>
             {:else}
-            <ButtonIcon func={GZ.mqttDIAGMagnetOn} img={img_led} color={RGBA(BASE.SEAFOAM, 0.1)} />
-            <p>OFF</p>
-            {/if}
-        </div>
-    </PanelControl>
-
-    <PanelControl>
-        <div class="diag-control">
-            <p>MOTOR</p>
-            {#if motor}
-            <ButtonIcon func={GZ.mqttDIAGMotorOff} img={img_led} color={RGBA(BASE.SEAFOAM, 0.7)} />
-            <p>ON</p>
-            {:else}
-            <ButtonIcon func={GZ.mqttDIAGMotorOn} img={img_led} color={RGBA(BASE.SEAFOAM, 0.1)} />
+            <ButtonIcon func={GZ.mqttDIAGMagnetOn} img={img_led} color={RGBA(BASE.SEAFOAM, 0.2)} />
             <p>OFF</p>
             {/if}
         </div>
@@ -71,23 +56,30 @@
         <div class="motor-control">
             <p>POSITION</p>
             <h4>{Number(GZ.sta.current_height).toFixed(2)}</h4>
-            <ButtonIcon func={GZ.mqttDIAGMoveUp} img={img_led} color={RGBA(BASE.SEAFOAM, 0.1)} />
+            <ButtonIcon func={GZ.mqttDIAGMoveUp} img={img_led} color={RGBA(BASE.YELLOW, 0.6)} />
             <p>UP</p>
             <p>DOWN</p>
-            <ButtonIcon func={GZ.mqttDIAGMoveDown} img={img_led} color={RGBA(BASE.SEAFOAM, 0.1)} />
+            <ButtonIcon func={GZ.mqttDIAGMoveDown} img={img_led} color={RGBA(BASE.PINK, 0.6)} />
         </div>
     </PanelControl>
 
+    <PanelControl>
+        <div class="diag-control">
+            <p>MOTOR</p>
+            <ButtonIcon func={GZ.mqttDIAGMotorStop} img={img_led} color={RGBA(BASE.RED, 0.7)} />
+            <p>STOP</p>
+        </div>
+    </PanelControl>
 </div>
 
 
 <style>
 
-    .container {
+    /* .container {
         width: 100%; 
         height: 100%;
         gap: 0.75em;
-    }
+    } */
 
     .sec-hdr {
         align-items: flex-end;

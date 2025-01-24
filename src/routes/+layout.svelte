@@ -31,8 +31,9 @@
 
 <style>
     .main {
-        display: grid;
+        display: flex;
         overflow: hidden;
+        justify-content: space-around;
         grid-template-columns: 1fr;
         grid-template-rows:  auto  1fr;
         background-color: var(--drk);
@@ -48,6 +49,7 @@
     .layout {
         background-color: transparent;
         overflow: hidden;
+        width: 90%;
         padding: 0.75em;
         height: 100%;
     }

@@ -2,14 +2,13 @@ export class State {
     estop = $state(false)
     door_open = $state(false)
     fist_limit = $state(false)
-    anvil_limit = $state(false)
+    anvil_limit = $state(true)
     home_limit = $state(false)
     top_limit = $state(false)
-    pressure = $state(false)
+    pressure = $state(true)
     
     brake_on = $state(false)
     magnet_on = $state(false)
-    motor_on = $state(false)
     
     motor_steps = $state(0)
     current_height = $state(0.0)
@@ -27,7 +26,6 @@ export class State {
         
         this.brake_on = js.brake_on
         this.magnet_on = js.magnet_on
-        this.motor_on = js.motor_on
         
         this.motor_steps = js.motor_steps
         this.current_height = js.current_height
@@ -45,7 +43,6 @@ export class State {
             
             brake_on: this.brake_on,
             magnet_on: this.magnet_on,
-            motor_on: this.motor_on,
 
             motor_steps: this.motor_steps,
             current_height: this.current_height
@@ -73,7 +70,6 @@ Message: ( ALL GOOD )
 
     "brake_on": true,
     "magnet_on": true,
-    "motor_on": false,
     
     "motor_steps": 1000,
     "current_height": 47.9
@@ -91,7 +87,6 @@ Message: ( ALL BAD )
 
     "brake_on": false,
     "magnet_on": false,
-    "motor_on": true,
     
     "motor_steps": 1000,
     "current_height": 47.9
