@@ -48,7 +48,7 @@
 
     <Indicator name="TOP"
         bind:io={GZ.sta.top_limit} 
-        bind:op={GZ.sta.top_limit} 
+        bind:op={GZ.ops.want_fist_down} 
         opOn={colorFault} lblOpOn="LIMIT FAULT"
         opOff={colorOK} lblOpOff="LIMIT CLEAR"
     />

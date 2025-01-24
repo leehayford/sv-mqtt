@@ -4,6 +4,7 @@ export class Ops {
 
     want_estop_release = $state(false)
     want_door_close = $state(false)
+    want_fist_down = $state(false)
     want_config = $state(false)
 
     request_aid = $state(false)
@@ -32,6 +33,7 @@ export class Ops {
         
         this.want_estop_release = js.want_estop_release
         this.want_door_close = js.want_door_close
+        this.want_fist_down = js.want_fist_down
         this.want_config = js.want_config
 
         this.request_aid = js.request_aid
@@ -60,6 +62,7 @@ export class Ops {
 
             want_estop_release: this.want_estop_release,
             want_door_close: this.want_door_close,
+            want_fist_down: this.want_fist_down,
             want_config: this.want_config,
 
             request_aid: this.request_aid,
@@ -100,6 +103,7 @@ Message:
 
     "want_estop_release": true,
     "want_door_close": true,
+    "want_fist_down": true
     "want_config": true,
 
     "request_aid": true,
