@@ -7,6 +7,7 @@
     import PanelControl from '$lib/common/panel/PanelControl.svelte'
     import ButtonIcon from '$lib/common/button_icon/ButtonIcon.svelte'
     import img_led from '$lib/assets/LED.svg'
+    import img_cancel from '$lib/assets/Cancel.svg'
 
     let GZ = $state(getContext('gizmo'))
 
@@ -22,6 +23,7 @@
     <div class="row sec-hdr">
         <h3>Diagnostics: </h3>
         <!-- <ButtonIcon func={GZ.mqttCMDReport} img={img_question} color={RGBA(BASE.MAGENTA, 0.7)} /> -->
+        <ButtonIcon func={GZ.mqttCMDDisableDiagMdoe} img={img_cancel} color={RGBA(BASE.RED, 0.7)} />
     </div>
 
     <PanelControl>
@@ -92,10 +94,10 @@
 
     .diag-control {
         display: grid;
-        grid-template-columns: 5em var(--ctrl-h-m) 1fr;
+        grid-template-columns: 5em 3em 1fr;
         align-items: center;
-        min-height: var(--ctrl-h-m);
-        max-height: var(--ctrl-h-m);
+        min-height: 3em;
+        max-height: 3em;
         width:100%;
         padding:0 0.5em;
         gap:0.75em;
@@ -103,10 +105,10 @@
 
     .motor-control {
         display: grid;
-        grid-template-columns: 5em 5em var(--ctrl-h-m) 3em 3em var(--ctrl-h-m) 3em;
+        grid-template-columns: 5em 5em 3em 3em 3em 3em 3em;
         align-items: center;
-        min-height: var(--ctrl-h-m);
-        max-height: var(--ctrl-h-m);
+        min-height: 3em;
+        max-height: 3em;
         width:100%;
         padding:0 0.5em;
         gap:0.75em;

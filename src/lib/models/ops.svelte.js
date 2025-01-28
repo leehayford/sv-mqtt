@@ -18,7 +18,9 @@ export class Ops {
     
     raise_hammer = $state(false)
     drop_hammer = $state(false)
-    want_strike = $state(true)
+    want_brake_off = $state(false)
+    want_brake_on = $state(false)
+    want_strike = $state(false)
     
     cycle_count = $state(0)
     step_target = $state(0)
@@ -47,6 +49,8 @@ export class Ops {
 
         this.raise_hammer = js.raise_hammer
         this.drop_hammer = js.drop_hammer
+        this.want_brake_off = js.want_brake_off
+        this.want_brake_on = js.want_brake_on
         this.want_strike = js.want_strike
 
         this.cycle_count = js.cycle_count
@@ -76,6 +80,8 @@ export class Ops {
             
             raise_hammer: this.raise_hammer,
             drop_hammer: this.drop_hammer,
+            want_brake_off: this.want_brake_off,
+            want_brake_on: this.want_brake_on,
             want_strike: this.want_strike,
             
             cycle_count: this.cycle_count,

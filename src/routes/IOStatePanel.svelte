@@ -21,15 +21,15 @@
 <div class="col container">
 
     <div class="row sec-hdr">
-        <h3>IO Pin State: </h3>
+        <h3>IO Pin & Operational State: </h3>
         <!-- <ButtonIcon func={GZ.mqttCMDReport} img={img_question} color={RGBA(BASE.MAGENTA, 0.7)} /> -->
     </div>
     
     <div class="stat-hdr">
         <div class="row lbl">Name</div>
-        <p>IO</p>
-        <p>OP</p>
-        <p>Note</p>
+        <div class="led">IO</div>
+        <div class="led">OP</div>
+        <p>Description</p>
     </div>
 
     <Indicator name="E-STOP" 
@@ -77,29 +77,7 @@
         opOff={colorOK} lblOpOff="MAGNET OFF"
     />
     
-    {#if GZ.ops.go_home}
-    <Indicator name="FIST"
-        bind:io={GZ.sta.fist_limit}
-        bind:op={GZ.ops.seek_hammer}
-        opOn={colorWarn} lblOpOn="SEEKING HAMMER"
-        opOff={colorOK} lblOpOff="HAMMER FOUND"
-    />
-    
-    <Indicator name="ANVIL"
-        bind:io={GZ.sta.anvil_limit}
-        bind:op={GZ.ops.seek_anvil}
-        opOn={colorWarn} lblOpOn="SEEKING ANVIL"
-        opOff={colorOK} lblOpOff="ANVIL FOUND"
-    />
-    
-    <Indicator name="HOME"
-        bind:io={GZ.sta.home_limit}
-        bind:op={GZ.ops.seek_home}
-        opOn={colorWarn} lblOpOn="SEEKING HOME"
-        opOff={colorOK} lblOpOff="HOME FOUND"
-    />
-
-    {:else if GZ.ops.raise_hammer}
+    {#if GZ.ops.raise_hammer}
 
     <Indicator name="FIST"
         bind:io={GZ.sta.fist_limit}
@@ -144,6 +122,30 @@
         opOn={colorFault} lblOpOn="LIMIT FAULT"
         opOff={colorOK} lblOpOff="LIMIT CLEAR"
     />
+
+    {:else}
+
+        <Indicator name="FIST"
+            bind:io={GZ.sta.fist_limit}
+            bind:op={GZ.ops.seek_hammer}
+            opOn={colorWarn} lblOpOn="SEEKING HAMMER"
+            opOff={colorOK} lblOpOff="HAMMER FOUND"
+        />
+        
+        <Indicator name="ANVIL"
+            bind:io={GZ.sta.anvil_limit}
+            bind:op={GZ.ops.seek_anvil}
+            opOn={colorWarn} lblOpOn="SEEKING ANVIL"
+            opOff={colorOK} lblOpOff="ANVIL FOUND"
+        />
+        
+        <Indicator name="HOME"
+            bind:io={GZ.sta.home_limit}
+            bind:op={GZ.ops.seek_home}
+            opOn={colorWarn} lblOpOn="SEEKING HOME"
+            opOff={colorOK} lblOpOff="HOME FOUND"
+        />
+
     {/if}
 
     
@@ -205,7 +207,7 @@
 <style>
     
     .container {
-        gap:0.5em;
+        gap:1.5em;
     }
 
     .stat-hdr {
@@ -234,6 +236,10 @@
     }
     .sec-hdr h3 {
         color: var(--gry06);
+    }
+
+    .led {
+        font-size: 1.3em;
     }
 
 </style>

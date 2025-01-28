@@ -18,6 +18,15 @@ export class Config {
         }
     }
 
+    validate = () => {
+        if( this.cycles > 0
+        &&  this.height > 0
+        &&  this.height <= 48.0
+        ) return true
+
+        return false
+    }
+
     toCMD = () => {
         return JSON.stringify(this.toJson())
     }

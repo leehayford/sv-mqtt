@@ -1,4 +1,7 @@
 <script>
+    
+    import {getContext, createEventDispatcher} from 'svelte'
+    const dispatch = createEventDispatcher()
 
     import {RGBA, BASE} from '$lib/common/colors'
 
@@ -7,7 +10,6 @@
     import ButtonIcon from '$lib/common/button_icon/ButtonIcon.svelte'
     import img_accept from '$lib/assets/Accept.svg'
     import img_reset from '$lib/assets/Reset.svg'
-    import { disableScrollHandling } from '$app/navigation';
 
     let { 
         showKeyPad = $bindable(), 
@@ -36,8 +38,9 @@
     }
 
     const confirm = () => { 
-        dialog.close() 
         showKeyPad = false
+        dispatch("validate")
+        dialog.close() 
     }
     
     const updateStr = (value) => {
@@ -97,9 +100,9 @@
     <div class="title">{title}</div>    
 
     <div class="num">
+        <ButtonIcon func={clear} img={img_reset} color={RGBA(BASE.AQUA, 0.7)} />
         <!-- <InputNum width="100%" enabled={false} bind:num/>  -->
         <div class="conf-value">{numStr}</div>
-        <ButtonIcon func={clear} img={img_reset} color={RGBA(BASE.AQUA, 0.7)} />
         <ButtonIcon func={confirm} img={img_accept} color={RGBA(BASE.SEAFOAM, 0.7)} />
     </div>
     <br>
@@ -126,7 +129,7 @@
 <style>
 
     .title {
-        font-size: 1.5em; 
+        font-size: 2.5em; 
         font-weight: 300;
         color: var(--aqu07);
         padding-bottom: 0.25em;
@@ -134,7 +137,7 @@
 
     .num {
         display: grid;
-        grid-template-columns: 1fr 2em 2em;
+        grid-template-columns: 3em 1fr 3em;
         border-bottom: solid 0.05em var(--lit01);
         padding-bottom: 0.5em;
         align-items: center;
@@ -157,9 +160,9 @@
 
     .btn-grid {
         display: grid;
-        grid-template-columns: 4em 4em 4em;
-        grid-template-rows: 4em 4em 4em 4em;
-        padding: 0 2em;
+        grid-template-columns: 6em 6em 6em;
+        grid-template-rows: 6em 6em 6em 6em;
+        padding: 0 3em;
         gap: 0.75em;
     }
 

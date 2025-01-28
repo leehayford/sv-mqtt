@@ -10,7 +10,7 @@
         color = $bindable(RGBA(BASE.ORANGE, 0.7)),
         enabled = true,
         show = true,
-        size ='2em',
+        size ='2.9em',
         hint = null,
         func = $bindable()
     } = $props()
@@ -20,6 +20,8 @@
     const isHovered = () => dispatch("show_hint")
     const notHovered = () => dispatch("hide_hint")
 
+/*
+*/
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -32,12 +34,16 @@
 
     class="icon"  
     style="
-        background-image: url({img}); 
-        background-color: {bgColor}; cursor: {cursor};
+        background-image: url({img});
+        background-color: {bgColor};  
+        cursor: {cursor};
         max-width: {size};
         min-width: {size};
+        width: {size};
         max-height: {size};
-        min-height: {size};"
+        min-height: {size};
+        height: {size};
+        "
         >
 
     {#if hint !== null}
