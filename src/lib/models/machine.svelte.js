@@ -31,8 +31,8 @@ const MQTT_CMD_STATE = MQTT_CMD_PRFX + 'state'
 const MQTT_CMD_CONFIG = MQTT_CMD_PRFX + 'config'
 
 const MQTT_CMD_OPS = MQTT_CMD_PRFX + 'ops'
-const MQTT_CMD_OPS_RESET = MQTT_CMD_OPS + 'reset'
-const MQTT_CMD_OPS_CONTINUE = MQTT_CMD_OPS + 'continue'
+const MQTT_CMD_OPS_RESET = MQTT_CMD_OPS + '/reset'
+const MQTT_CMD_OPS_CONTINUE = MQTT_CMD_OPS + '/continue'
 
 /* MQTT Diagnostic Command Topics */
 const MQTT_DIAG_ENABLE = MQTT_DIAG_PRFX + 'enable'
@@ -124,14 +124,14 @@ export class Machine {
 
                 case MQTT_SIG_STATE: 
                     this.sta.parse(msg)
-                    console.log(this.sta.toJson())
+                    console.log("STATE:", this.sta.toJson())
                     break
 
                 case MQTT_SIG_CONFIG: 
                     if( this.cfg.run                                    /* We are running at the moment */ 
                     ) {
                         this.cfg.parse(msg)                             // Accept this message from the machine
-                        console.log(this.cfg.toJson())
+                        console.log("CONFIG:", this.cfg.toJson())
                     }
                     break
 
@@ -147,7 +147,7 @@ export class Machine {
                     ) 
 
                     this.position = Number(this.sta.current_height).toFixed(3)
-
+                    console.log("OPS:", this.ops.toJson())
                     break
 
                 case MQTT_SIG_OPS_POS: 
@@ -192,7 +192,17 @@ export class Machine {
 
     /* Ops Commands */
     mqttCMDOps = () => {
-        this.mqttPublish(MQTT_CMD_OPS, this.ops.toCMD())
+        this.mqttPublish(MQTT_CMD_OPS, 'yaaaaahhhh.....')
+    }
+
+    mqttCMDContinue = () => {
+        console.log("mqttCMDContinue")
+        this.mqttPublish(MQTT_CMD_OPS_CONTINUE, 'yaaaaahhhh.....')
+    }
+
+    mqttCMDReset = () => {
+        console.log("mqttCMDReset")
+        this.mqttPublish(MQTT_CMD_OPS_RESET, 'yaaaaahhhh.....')
     }
 
     /* Diagnostic Commands */
