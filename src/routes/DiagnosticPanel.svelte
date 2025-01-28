@@ -87,6 +87,7 @@
         align-items: flex-end;
         justify-content: space-between;
         border-bottom: solid 0.1em var(--gry02);
+        padding-bottom: 0.5em;
     }
     .sec-hdr h3 {
         color: var(--gry06);

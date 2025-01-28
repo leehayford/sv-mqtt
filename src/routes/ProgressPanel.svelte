@@ -53,14 +53,14 @@
     align-items: flex-end;
     justify-content: space-between;
     border-bottom: solid 0.1em var(--gry02);
-    padding-bottom: 0.25em;
-}
-.sec-hdr h3 {
-    color: var(--gry06);
-}
+    padding-bottom: 0.5em;
+    }
+    .sec-hdr h3 {
+        color: var(--gry06);
+    }
 
-.conf-btns {
-    justify-content: flex-end;
-    /* padding-right: 1.5em; */
-}
+    .conf-btns {
+        justify-content: flex-end;
+        /* padding-right: 1.5em; */
+    }
 </style>
