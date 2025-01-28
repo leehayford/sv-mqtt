@@ -22,7 +22,7 @@
 
     <div class="row sec-hdr">
         <h3>IO Pin & Operational State: </h3>
-        <!-- <ButtonIcon func={GZ.mqttCMDReport} img={img_question} color={RGBA(BASE.MAGENTA, 0.7)} /> -->
+        <ButtonIcon func={GZ.mqttCMDReport} img={img_led} color={RGBA(BASE.MAGENTA, 0.7)} />
     </div>
     
     <div class="stat-hdr">
