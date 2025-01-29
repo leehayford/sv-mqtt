@@ -50,6 +50,7 @@
     background-color: var(--hdr-bg);
     display: grid;
     border-bottom: solid 0.1em var(--brd-clr);
+    font-size: 1.3em;
     align-items: center;
     min-height: var(--hdr-h);
     max-height: var(--hdr-h);

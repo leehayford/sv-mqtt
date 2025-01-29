@@ -5,6 +5,7 @@ import {MQTT_BROKER, MQTT_USER, MQTT_PW, MQTT_DEVICE} from '$lib/app'
 import {ALERT_CODES, alert, waitMilli } from '$lib/utils';
 
 import { Error } from './error.svelte'
+import { Admin } from './admin.svelte'
 import { State } from './state.svelte'
 import { Config } from './config.svelte'
 import { Ops } from './ops.svelte';
@@ -20,6 +21,7 @@ const MQTT_DIAG_PRFX =  MQTT_CMD_PRFX + 'diag/'
 /* MQTT Signal Topics */
 const MQTT_SIG_ALL = MQTT_SIG_PRFX + '#'
 const MQTT_SIG_ERR = MQTT_SIG_PRFX + 'error'
+const MQTT_SIG_ADMIN = MQTT_SIG_PRFX + 'admin'
 const MQTT_SIG_STATE = MQTT_SIG_PRFX + 'state'
 const MQTT_SIG_CONFIG = MQTT_SIG_PRFX + 'config'
 const MQTT_SIG_OPS = MQTT_SIG_PRFX + 'ops'
@@ -60,6 +62,7 @@ const MQTT_OPT_TIMEOUT = MQTT_OPT_RECONN * 30
 const MAX_SWING_HEIGHT = 48.00
 
 export class Machine {
+    adm
     sta
     cfg
     ops
@@ -73,10 +76,11 @@ export class Machine {
     percentComplete = $state(0)
 
     constructor() { // console.log("New Machine")
+        this.err = new Error()
+        this.adm = new Admin()
         this.sta = new State()
         this.cfg = new Config()
         this.ops = new Ops()
-        this.err = new Error()
         this.mqttConnect()
     }
 
@@ -120,6 +124,11 @@ export class Machine {
                     this.err.parse(msg) 
                     alert(this.err.code, this.err.message) 
                     console.log(this.err.toJson())
+                    break
+
+                case MQTT_SIG_ADMIN:
+                    this.adm.parse(msg)
+                    console.log("ADMIN:", this.adm.toJson())
                     break
 
                 case MQTT_SIG_STATE: 
@@ -171,6 +180,11 @@ export class Machine {
 
     mqttCMDReport = () => {
         this.mqttPublish(MQTT_CMD_REPORT, 'yaaaaahhhh.....')
+    }
+
+    /* Admin Commands */
+    mqttCMDAdmin = () => {
+        this.mqttPublish(MQTT_CMD_ADMIN, this.adm.toCMD())
     }
 
     /* State Commands */

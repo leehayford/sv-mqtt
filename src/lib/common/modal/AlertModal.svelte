@@ -120,7 +120,7 @@
                 </div>
                 
                 <div class="row btns">
-                    OK
+                    <p>OK</p>
                     <ButtonIcon img={img_accept} func={clearAlert} color={RGBA(color, 0.7)} />
                 </div>
 
@@ -174,7 +174,7 @@
             width: 100%;
         }
         .title {
-            font-size: 1.5em;
+            font-size: 1.7em;
             font-weight: 300; 
             padding: 0;
         }
@@ -185,9 +185,16 @@
             font-size: 1.2em;
             padding: 1em;
         }
+        .msg p {
+            font-size: 1.5em;
+        }
         .btns {
             justify-content: flex-end;
             align-items: center;
             gap: 0.75em;
+        }
+        
+        .btns p {
+            font-size: 1.5em;
         }
     </style>

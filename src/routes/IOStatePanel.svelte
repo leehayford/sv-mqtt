@@ -57,14 +57,14 @@
     <Indicator name="PRESSURE"
         bind:io={GZ.sta.pressure}
         bind:op={GZ.sta.pressure}
-        opOn={colorFault} lblOpOn="BRAKE FAILURE - HIGH PRESSURE FAULT"
+        opOn={colorFault} lblOpOn="BRAKE FAILED OFF - HIGH PRESSURE FAULT"
         opOff={colorOK} lblOpOff="BRAKE ON"
     />
     {:else}
     <Indicator name="PRESSURE"
         bind:io={GZ.sta.pressure} 
         bind:op={GZ.sta.pressure}
-        opOff={colorFault} lblOpOff="BRAKE FAILURE - LOW PRESSURE FAULT"
+        opOff={colorFault} lblOpOff="BRAKE FAILED ON - LOW PRESSURE FAULT"
         opOn={colorOK} lblOpOn="BRAKE OFF"
     />
     {/if}
@@ -123,84 +123,31 @@
         opOff={colorOK} lblOpOff="LIMIT CLEAR"
     />
 
-    {:else}
+    {:else if GZ.ops.go_home}
 
         <Indicator name="FIST"
             bind:io={GZ.sta.fist_limit}
-            bind:op={GZ.ops.seek_hammer}
-            opOn={colorWarn} lblOpOn="SEEKING HAMMER"
-            opOff={colorOK} lblOpOff="HAMMER FOUND"
+            bind:op={GZ.sta.fist_limit}
+            opOff={colorWarn} lblOpOff="SEEKING HAMMER"
+            opOn={colorOK} lblOpOn="HAMMER FOUND"
         />
         
         <Indicator name="ANVIL"
             bind:io={GZ.sta.anvil_limit}
-            bind:op={GZ.ops.seek_anvil}
-            opOn={colorWarn} lblOpOn="SEEKING ANVIL"
-            opOff={colorOK} lblOpOff="ANVIL FOUND"
+            bind:op={GZ.sta.anvil_limit}
+            opOff={colorWarn} lblOpOff="SEEKING ANVIL"
+            opOn={colorOK} lblOpOn="ANVIL FOUND"
         />
         
         <Indicator name="HOME"
             bind:io={GZ.sta.home_limit}
-            bind:op={GZ.ops.seek_home}
-            opOn={colorWarn} lblOpOn="SEEKING HOME"
-            opOff={colorOK} lblOpOff="HOME FOUND"
+            bind:op={GZ.sta.home_limit}
+            opOff={colorWarn} lblOpOff="SEEKING HOME"
+            opOn={colorOK} lblOpOn="HOME FOUND"
         />
 
     {/if}
 
-    
-    
-    <!-- <Indicator name="BRAKE"
-    bind:io={GZ.sta.brake_on}
-    colorClear={colorWarn} lblClear="OFF"
-    colorAlarm={colorOK} lblAlarm="ON"
-    /> -->
-    
-    
-    <!-- <Indicator bind:alarm={GZ.sta.estop} type="SWITCH:" name="E-STOP"
-    colorClear={colorOK} lblClear="CLEAR"
-    colorAlarm={colorFault} lblAlarm="EMERGENCY STOP"
-    />
-    
-    <Indicator bind:alarm={GZ.sta.door_open} type="LIMIT:" name="DOOR"
-    colorClear={colorOK} lblClear="CLOSED"
-    colorAlarm={colorFault} lblAlarm="OPEN"
-    />
-
-    <Indicator bind:alarm={GZ.sta.pressure} type="SWITCH:" name="PRESSURE"
-    colorClear={colorOK} lblClear="PRESSURE OK"
-    colorAlarm={colorFault} lblAlarm="PRESSURE FAULT"
-    />
-
-    <Indicator bind:alarm={GZ.sta.top_limit} type="LIMIT:" name="TOP"
-    colorClear={colorOK} lblClear="CLEAR"
-    colorAlarm={colorFault} lblAlarm="FAULT"
-    />
-
-    <Indicator bind:alarm={GZ.sta.fist_limit} type="LIMIT:" name="FIST"
-    colorAlarm={colorOK} lblAlarm="HAMMER LOCATED"
-    colorClear={colorWarn} lblClear="HAMMER FREE"
-    />
-    
-    <Indicator bind:alarm={GZ.sta.anvil_limit} type="PROXIMITY:" name="ANVIL"
-    colorAlarm={colorOK} lblAlarm="HAMMER DOWN"
-    colorClear={colorWarn} lblClear="HAMMER RAISED"
-    />
-    
-    <Indicator bind:alarm={GZ.sta.home_limit} type="LIMIT:" name="HOME"
-    colorAlarm={colorOK} lblAlarm="HOME"
-    colorClear={colorWarn} lblClear="FIST RAISED"
-    />
-    
-    <Indicator bind:alarm={GZ.sta.brake_on} type="RELAY:" name="BRAKE"
-    colorClear={colorWarn} lblClear="OFF"
-    colorAlarm={colorOK} lblAlarm="ON"
-    />
-    
-    <Indicator bind:alarm={GZ.sta.magnet_on} type="RELAY:" name="MAGNET"
-    colorClear={colorWarn} lblClear="OFF"
-    colorAlarm={colorOK} lblAlarm="ON"
-    /> -->
 
 </div>
 
