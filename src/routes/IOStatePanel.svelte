@@ -7,6 +7,7 @@
     import PanelControl from '$lib/common/panel/PanelControl.svelte'
     import Indicator from '$lib/common/indicator/Indicator.svelte'
     import ButtonIcon from '$lib/common/button_icon/ButtonIcon.svelte'
+    import img_question from '$lib/assets/Question.svg'
     import img_led from '$lib/assets/LED.svg'
 
     let GZ = $state(getContext('gizmo'))
@@ -22,13 +23,16 @@
 
     <div class="row sec-hdr">
         <h3>IO Pin & Operational State: </h3>
-        <ButtonIcon func={GZ.mqttCMDReport} img={img_led} color={RGBA(BASE.MAGENTA, 0.7)} />
+        <div class="row conf-btns">
+            <ButtonIcon img={img_question} color={RGBA(BASE.AQUA, 0.7)} 
+            func={GZ.mqttCMDReport} />
+        </div>
     </div>
     
     <div class="stat-hdr">
         <div class="row lbl">Name</div>
-        <div class="led">IO</div>
-        <div class="led">OP</div>
+        <div class="stat-led-hdr">IO</div>
+        <div class="stat-led-hdr">OP</div>
         <p>Description</p>
     </div>
 
@@ -154,39 +158,38 @@
 <style>
     
     .container {
-        gap:1.5em;
+        gap:1.25em;
     }
 
     .stat-hdr {
         display: grid;
-        /* grid-template-columns: 5em 10em var(--ctrl-h-m) 1fr; */
         grid-template-columns: 5em var(--ctrl-h-m) var(--ctrl-h-m) 1fr;
         border-bottom: solid 0.1em var(--gry02);
         align-items: center;
         min-height: var(--ctrl-h-m);
         max-height: var(--ctrl-h-m);
         width:100%;
-        padding:0 0.5em;
+        padding:0 0.5em 0.5em 0.5em;
         gap:0.75em;
     }
     
     .stat-hdr .lbl {
+        color: var(--aqu07);
         justify-content: flex-end;
         align-items: center;
-    }
-
-    .sec-hdr {
-        align-items: flex-end;
-        justify-content: space-between;
-        border-bottom: solid 0.1em var(--gry02);
-        padding-bottom: 0.5em;
-    }
-    .sec-hdr h3 {
-        color: var(--gry06);
-    }
-
-    .led {
         font-size: 1.3em;
+    }
+    .stat-hdr p {
+        color: var(--aqu07);
+        /* justify-content: flex-end; */
+        align-items: center;
+        font-size: 1.3em;
+    }
+
+    .stat-led-hdr {
+        color: var(--pnk07);
+        font-size: 1.3em;
+        width: var(--ctrl-h-m);
     }
 
 </style>

@@ -15,7 +15,8 @@
     import ConfigPanel from './ConfigPanel.svelte'
     import ProgressPanel from './ProgressPanel.svelte'
 
-    import KeyPad from './KeyPad.svelte'
+    import KeyPad from '../lib/common/key_pad/KeyPad.svelte'
+    import AdminPanel from './AdminPanel.svelte'
     import IOStatePanel from './IOStatePanel.svelte'
     import OpStatePanel from './OpStatePanel.svelte'
     import DiagnosticPanel from './DiagnosticPanel.svelte'
@@ -68,7 +69,7 @@
     />
 
     <div class="row hdr">
-        <div class="row hdr-title"> ~2Chainz </div>
+        <div class="row hdr-title"> 2Chainz </div>
         <div class="row hdr-content">
             <div class="row hdr-status">{GZ.ops.status}</div>
             {#if !GZ.ops.diagnostic_mode}
@@ -80,12 +81,14 @@
 
     <br>
 
-    <div class="col controls">
+    <AdminPanel />
+
+    <!-- <div class="col controls">
         
         {#if GZ.ops.diagnostic_mode}
         <DiagnosticPanel />
         {:else if GZ.ops.want_aid}
-        <div class="row sec-hdr">
+        <div class="row aid-prompt">
             <h3>OK to continue?</h3>
             <div class="row conf-btns">
                 <ButtonIcon func={GZ.mqttCMDReset} img={img_reset} color={RGBA(BASE.ORANGE, 0.8)} />
@@ -106,7 +109,7 @@
 
     <br>
 
-    <IOStatePanel />
+    <IOStatePanel /> -->
 
 </div>
 
@@ -134,27 +137,20 @@
         align-items: center;
     }
     .hdr-status {
-        color: var(--ong07);
+        color: var(--pnk07);
         font-size: 1.4em; 
         font-weight: 300;
     }
 
-    .sec-hdr {
+    .aid-prompt {
         background-color: var(--ong01);
         align-items: center;
         justify-content: space-between;
-        /* border-bottom: solid 0.1em var(--gry02); */
         border-radius: 2em;
         padding: 0.5em 1em;
     }
-    .sec-hdr h3 {
+    .aid-prompt h3 {
         color: var(--ong06);
-    }
-
-    .conf-btns {
-        justify-content: flex-end;
-        width: auto;
-        /* padding-right: 1.5em; */
     }
 
     .controls {

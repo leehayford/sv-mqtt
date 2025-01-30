@@ -6,7 +6,7 @@
     import {RGBA, BASE} from '$lib/common/colors'
 
     import InputNum from '$lib/common/input_num/InputNum.svelte'
-    import KeyPadButton from './KeyPadButton.svelte'
+    import KeyPadButton from '$lib/common/key_pad/KeyPadButton.svelte'
     import ButtonIcon from '$lib/common/button_icon/ButtonIcon.svelte'
     import img_accept from '$lib/assets/Accept.svg'
     import img_reset from '$lib/assets/Reset.svg'
