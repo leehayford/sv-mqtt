@@ -5,6 +5,7 @@
 
     import {RGBA, BASE} from '$lib/common/colors'
 
+    import KeyPad from '$lib/common/key_pad/KeyPad.svelte'
     import KeyPadControl from '$lib/common/key_pad/KeyPadControl.svelte'
     import ButtonIcon from '$lib/common/button_icon/ButtonIcon.svelte'
     import img_edit from '$lib/assets/Edit.svg'
@@ -14,27 +15,17 @@
 
     let GZ = $state(getContext('gizmo'))
 
-    let edit = $state(false);
+    let edit = $state(false)
 
-    const openHmrTime = () => {dispatch("")}
-    const openPosTime = () => {dispatch("")}
-    const openMagTime = () => {dispatch("")}
-    
-    const openITRTime = () => {dispatch("")}
+    const acceptChanges = () => {
+        GZ.mqttCMDAdminSetDefaults();
+        edit = false
+    }
 
-    const openHzHigh = () => {dispatch("")}
-    const openHzLow = () => {dispatch("")}
-    const openAccel = () => {dispatch("")}
-    const openDecel = () => {dispatch("")}
-    
-    const openInchRev = () => {dispatch("")}
-    const openStepsRev = () => {dispatch("")}
-    
-    const openInchMax = () => {dispatch("")}
+    const cancelChanges = () => {
 
-    const openInchOver = () => {dispatch("")}
-    
-    const openInchDiag = () => {dispatch("")}
+        edit = false
+    }
 
 </script>
 
@@ -44,12 +35,14 @@
         
         <div class="row conf-btns">
             {#if edit}
-            <ButtonIcon img={img_accept} color={RGBA(BASE.SEAFOAM, 0.7)} />
-            <ButtonIcon img={img_reset} color={RGBA(BASE.ORANGE, 0.7)} />
+            <ButtonIcon img={img_accept} color={RGBA(BASE.SEAFOAM, 0.7)} 
+                func={acceptChanges}/>
+            <ButtonIcon img={img_reset} color={RGBA(BASE.ORANGE, 0.7)} 
+                func={GZ.mqttCMDAdminGetDefaults}/>
             <ButtonIcon img={img_cancel} color={RGBA(BASE.RED, 0.7)} 
-                func={() => {edit = false}}/>
+                func={cancelChanges}/>
             {:else}
-            <ButtonIcon img={img_edit} color={RGBA(BASE.MAGENTA, 0.7)} 
+            <ButtonIcon img={img_edit} color={'var(--ylw08)'} 
                 func={() => {edit = true}}/>
             {/if}
         </div>
@@ -57,97 +50,80 @@
     </div>
 
     <!-- Operations -->
-    <KeyPadControl bind:num={GZ.adm.ops_tmr_hammer_usec} isInteger={true}
-        on:open-keypad={openHmrTime} 
+
+    <KeyPadControl bind:num={GZ.adm.ops_tmr_hammer_usec} isInteger={true} unit={"uSec"}
         title={"Hammer Timeout"}
-        unit={"uSec"}
+        note={"Time to wait for hammer to drop before alert"}
+        bind:enabled={edit} 
     />
-    <div class="note">Time to wait for hammer to drop before alert</div>
 
-    <KeyPadControl bind:num={GZ.adm.ops_pos_period_msec} isInteger={true}
-        on:open-keypad={openHmrTime} 
+    <KeyPadControl bind:num={GZ.adm.ops_pos_period_msec} isInteger={true} unit={"mSec"} 
         title={"Position Update"}
-        unit={"mSec"}
+        note={"How often to send position update while moving"}
+        bind:enabled={edit}
     />
-    <div class="note">How often to send position update while moving</div>
 
-    <!-- <KeyPadControl bind:num={GZ.adm.ops_mag_delay_msec} isInteger={true}
-        on:open-keypad={openMagTime} 
+    <KeyPadControl bind:num={GZ.adm.ops_mag_delay_msec} isInteger={true} unit={"mSec"}
         title={"Magnet Wait"}
-        unit={"mSec"}
-    /> -->
+        note={"Time to wait, between securing and moving the hammer"}
+        bind:enabled={edit}
+    />
 
     <!-- IO -->
-    <KeyPadControl bind:num={GZ.adm.io_tmr_itr_deb_usec} isInteger={true}
-        on:open-keypad={openHmrTime} 
+
+    <KeyPadControl bind:num={GZ.adm.io_tmr_itr_deb_usec} isInteger={true} unit={"uSec"}
         title={"Interrupt Check"}
-        unit={"uSec"}
+        note={"How often to check for interrupt pins waiting on debounce"}
+        bind:enabled={edit}
     />
-    <div class="note">How often to check for interrupt pins waiting on debounce</div>
 
     <!-- Motor -->
  
-    <KeyPadControl bind:num={GZ.adm.mot_hz_low} isInteger={true}
-        on:open-keypad={openHzLow} 
+    <KeyPadControl bind:num={GZ.adm.mot_hz_low} isInteger={true} unit={"Hz"}
         title={"Motor Low Speed"}
-        unit={"Hz"}
+        bind:enabled={edit}
     />
-    <div class="note"></div>
 
-    <KeyPadControl bind:num={GZ.adm.mot_hz_high} isInteger={true}
-        on:open-keypad={openHzHigh} 
+    <KeyPadControl bind:num={GZ.adm.mot_hz_high} isInteger={true} unit={"Hz"}
         title={"Motor High Speed"}
-        unit={"Hz"}
+        bind:enabled={edit}
     />
-    <KeyPadControl bind:num={GZ.adm.mot_accel} isInteger={true}
-        on:open-keypad={openAccel} 
+    <KeyPadControl bind:num={GZ.adm.mot_accel} isInteger={true} unit={"Hz / s²"}
         title={"Motor Acceleration"}
-        unit={"Hz/s/s"}
+        bind:enabled={edit}
     />
-    <KeyPadControl bind:num={GZ.adm.mot_decel} isInteger={true}
-        on:open-keypad={openDecel} 
+    <KeyPadControl bind:num={GZ.adm.mot_decel} isInteger={true} unit={"Hz / s²"}
         title={"Motor Deceleration"}
-        unit={"Hz/s/s"}
+        bind:enabled={edit}
     />
 
-    <KeyPadControl bind:num={GZ.adm.mot_inch_rev} 
-        on:open-keypad={openInchRev} 
+    <KeyPadControl bind:num={GZ.adm.mot_inch_rev} unit={"Inch"}
         title={"Motor Inches / Rev"}
-        unit={"Inch"}
+        bind:enabled={edit}
     />
-    <KeyPadControl bind:num={GZ.adm.mot_steps_rev} isInteger={true}
+    <KeyPadControl bind:num={GZ.adm.mot_steps_rev} isInteger={true} unit={"Step"}
         title={"Motor Steps / Rev"}
-        unit={"Step"}
+        bind:enabled={edit}
     />
     
-    <KeyPadControl bind:num={GZ.adm.mot_inch_max} 
-        on:open-keypad={openAccel} 
+    <KeyPadControl bind:num={GZ.adm.mot_inch_max} unit={"Inch"}
         title={"Motor Max Height"}
-        unit={"Inch"}
+        bind:enabled={edit}
     />
-    <KeyPadControl bind:num={GZ.adm.mot_inch_over} 
-        on:open-keypad={openAccel} 
+    <KeyPadControl bind:num={GZ.adm.mot_inch_over} unit={"Inch"}
         title={"Motor Overshoot"}
-        unit={"Inch"}
+        note={"Distance to overshoot when returning to home position"}
+        bind:enabled={edit}
     />
-    <div class="note">Distance to overshoot when returning to home position</div>
 
-    <KeyPadControl bind:num={GZ.adm.diag_inch} 
-        on:open-keypad={openAccel} 
+    <KeyPadControl bind:num={GZ.adm.diag_inch} unit={"Inch"}
         title={"Diagnostic Move"}
-        unit={"Inch"}
+        note={"Distance to move (up or down) in diagnostic mode"}
+        bind:enabled={edit}
     />
-    <div class="note">Distance to move (up or down) in diagnostic mode</div>
 
 </div>
 
 <style>
-    .note {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        font-size: 1.1em;
-        margin-top: -1.0em;
-    }
 
 </style>

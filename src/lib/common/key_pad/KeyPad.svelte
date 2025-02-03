@@ -12,12 +12,15 @@
     import img_reset from '$lib/assets/Reset.svg'
 
     let { 
-        showKeyPad = $bindable(), 
-        num = $bindable(),
-        isInteger = false,
+        num = $bindable(0.0),
+        isInteger = $bindable(false),
+        unit = $bindable("UNIT"),
+        title = $bindable("TITLE"),
+        note = $bindable(""),
+
+        showKeyPad = $bindable(false), 
         max = Number.POSITIVE_INFINITY,
         min = 0,
-        title = "some title"
 
     } = $props()
 
@@ -97,12 +100,18 @@
     onclose={() => (showKeyPad = false)}
 	onclick={(e) => { if (e.target === dialog) confirm() }}
 >
-    <div class="title">{title}</div>    
+    <div class="hdr">
+        <div class="title">{title}</div>
+        <div class="unit">{unit}</div>
+    </div>    
 
-    <div class="num">
+    {#if note !== ""}
+    <div class="note">{note}</div>
+    {/if}
+
+    <div class="control">
         <ButtonIcon func={clear} img={img_reset} color={RGBA(BASE.AQUA, 0.7)} />
-        <!-- <InputNum width="100%" enabled={false} bind:num/>  -->
-        <div class="conf-value">{numStr}</div>
+        <div class="num">{numStr}</div>
         <ButtonIcon func={confirm} img={img_accept} color={RGBA(BASE.SEAFOAM, 0.7)} />
     </div>
     <br>
@@ -128,27 +137,43 @@
 
 <style>
 
-    .title {
-        font-size: 2.5em; 
-        font-weight: 300;
-        color: var(--aqu07);
-        padding-bottom: 0.25em;
+    .hdr {
+        display: grid;
+        grid-template-columns: 1fr 5em;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 1.5em;
     }
 
-    .num {
+    .title {
+        font-size: 2.1em; 
+        font-weight: 300;
+        color: var(--ylw07);
+    }
+
+    .note {
+        color: var(--gry07);
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        font-size: 1.2em;
+        padding: 0 1.5em 1.5em 1.5em;
+    }
+
+    .control {
         display: grid;
-        grid-template-columns: 3em 1fr 3em;
+        grid-template-columns: 1fr 19.5em 1fr;
         border-bottom: solid 0.05em var(--lit01);
         padding-bottom: 0.5em;
         align-items: center;
         gap: 0.75em;
     }
 
-    .conf-value {
+    .num {
         font-size: 1.7em; 
         font-weight: 300;
-        color: var(--aqu07);
-        background-color: var(--aqu01);
+        color: var(--ylw07);
+        background-color: var(--aqu005);
         border-top: solid 0.05em transparent;
         border-left: solid 0.05em transparent;
         border-right: solid 0.05em var(--lit01);
@@ -158,11 +183,24 @@
         min-width: 6.5em;
     }
 
+    .unit {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--ylw02);
+        color: var(--ylw06);
+        border-radius: 0.8em;
+        border: solid 0.05em var(--ylw04);
+        font-size: 1.25em;
+    }
+
     .btn-grid {
         display: grid;
         grid-template-columns: 6em 6em 6em;
         grid-template-rows: 6em 6em 6em 6em;
-        padding: 0 3em;
+        justify-content: center;
+        width:auto;
         gap: 0.75em;
     }
 

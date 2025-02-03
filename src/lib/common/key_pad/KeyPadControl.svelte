@@ -4,51 +4,77 @@
     const dispatch = createEventDispatcher()
 
     import {RGBA, BASE} from '$lib/common/colors'
-    import PanelControl from '$lib/common/panel/PanelControl.svelte'
+    import KeyPad from '$lib/common/key_pad/KeyPad.svelte'
 
     let {
-        title = "TITLE",
-        unit = "UNIT",
         num = $bindable(0.0),
-        isInteger = false
+        isInteger = $bindable(false),
+        unit = $bindable("UNIT"),
+        title = $bindable("TITLE"),
+        note = $bindable(""),
+
+        enabled = $bindable(false)
     } = $props()
 
-    const openKeyPad = () => {dispatch("open-keypad")}
+    let showKeyPad = $state(false)
+    const openKeyPad = () => {if(enabled) showKeyPad = true}
 
 </script>
 
-<!-- svelte-ignore a11y_no_static_element_interactions -->
-<div class="control-num" onclick={openKeyPad} onkeydown={openKeyPad} >
-    <div class="control-num-title">{title}</div>
-    <div class="conf-value">{(isInteger ? num.toFixed(0) : num.toFixed(2))}</div>
-    <div class="unit">{unit}</div>
+<KeyPad 
+    bind:num 
+    bind:isInteger 
+    bind:unit 
+    bind:title 
+    bind:note
+    bind:showKeyPad 
+    on:validate
+/>
+
+<div class="col">
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
+    <div class="control" onclick={openKeyPad} onkeydown={openKeyPad} >
+        <div class="title">{title}</div>
+        <div class="num {(enabled ? 'num-en' : 'num-dis')}">
+            {(isInteger ? num.toFixed(0) : num.toFixed(3))}
+        </div>
+        <div class="unit">{unit}</div>
+    </div>
+    {#if note !== ""}
+    <div class="note">{note}</div>
+    {/if}
 </div>
 
 <style>
 
-.control-num {
+    .control {
         display: grid;
         grid-template-columns: 1fr 1fr 5em;
         align-items: center;
         min-height: 2.5em;
         gap:0.75em;
     }
-    .control-num-title {
+    .title {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: flex-end;
-        color: var(--aqu07);
+        color: var(--ylw07);
         font-size: 1.4em; 
         font-weight: 300;
         padding-left: 1em;
-    } 
-
-    .conf-value {
+    }
+    .note {
+        color: var(--gry07);
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin-top: -1.0em;
+        font-size: 1.1em;
+    }
+    .num {
         font-size: 1.7em; 
         font-weight: 300;
-        color: var(--aqu07);
-        background-color: var(--aqu01);
         border-top: solid 0.05em transparent;
         border-left: solid 0.05em transparent;
         border-right: solid 0.05em var(--lit01);
@@ -56,9 +82,25 @@
         border-radius: 0.15em;
         padding: 0 0.5em;
     }
-    .unit {
+
+    .num-en {
         color: var(--ylw07);
-        font-size: 1.2em;
+        background-color: var(--aqu005);
+    }
+    .num-dis {
+        color: var(--gry06);
+        background-color: var(--lit002);
+    }
+    .unit {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25em;
+        color: var(--ylw06);
+        background-color: var(--ylw01);
+        border-radius: 0.8em;
+        border: solid 0.05em var(--ylw03);
     }
 
 </style>

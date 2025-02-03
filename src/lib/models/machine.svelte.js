@@ -29,6 +29,9 @@ const MQTT_SIG_OPS_POS = MQTT_SIG_OPS + '/pos'
 
 /* MQTT Command Topics */
 const MQTT_CMD_REPORT = MQTT_CMD_PRFX + 'report'
+const MQTT_CMD_ADMIN = MQTT_CMD_PRFX + 'admin'
+const MQTT_CMD_ADMIN_SET = MQTT_CMD_ADMIN + '/set_def'
+const MQTT_CMD_ADMIN_GET = MQTT_CMD_ADMIN + '/get_def'
 const MQTT_CMD_STATE = MQTT_CMD_PRFX + 'state'
 const MQTT_CMD_CONFIG = MQTT_CMD_PRFX + 'config'
 
@@ -176,7 +179,7 @@ export class Machine {
         waitMilli(1000);
     }
 
-    /* MQTT publiccations ***************************************************************************/
+    /* MQTT publications ***************************************************************************/
 
     mqttCMDReport = () => {
         this.mqttPublish(MQTT_CMD_REPORT, 'yaaaaahhhh.....')
@@ -185,6 +188,12 @@ export class Machine {
     /* Admin Commands */
     mqttCMDAdmin = () => {
         this.mqttPublish(MQTT_CMD_ADMIN, this.adm.toCMD())
+    }
+    mqttCMDAdminSetDefaults = () => {
+        this.mqttPublish(MQTT_CMD_ADMIN_SET, this.adm.toCMD())
+    }
+    mqttCMDAdminGetDefaults = () => {
+        this.mqttPublish(MQTT_CMD_ADMIN_GET, 'yaaaaahhhh.....')
     }
 
     /* State Commands */

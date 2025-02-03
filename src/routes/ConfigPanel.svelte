@@ -1,7 +1,6 @@
 <script>
     
-    import {getContext, createEventDispatcher} from 'svelte'
-    const dispatch = createEventDispatcher()
+    import {getContext} from 'svelte'
     
     import {RGBA, BASE} from '$lib/common/colors'
     
@@ -10,12 +9,9 @@
     import img_start from '$lib/assets/Start.svg'
 
     let GZ = $state(getContext('gizmo'))
-    const openQTYKeyPadModal = () => { dispatch("open_qty_keypad") }
-    const openHeightKeyPadModal = () => { dispatch("open_height_keypad") }
-    
-    let {
-        showStartButton = $bindable(false)
-    } = $props()
+
+    let showStartButton = $state(false)
+    const validateConfig = () => {showStartButton = GZ.cfg.validate()}
     
 </script>
 
@@ -30,16 +26,16 @@
         </div>
 
     </div>
-    <KeyPadControl bind:num={GZ.cfg.cycles} isInteger={true}
-        on:open-keypad={openQTYKeyPadModal} 
+    <KeyPadControl bind:num={GZ.cfg.cycles} isInteger={true} unit={"Qty"}
         title={"# of Drops"}
-        unit={"QTY"}
+        enabled={true}
+        on:validate={validateConfig}
     />
 
-    <KeyPadControl bind:num={GZ.cfg.height} 
-        on:open-keypad={openHeightKeyPadModal} 
+    <KeyPadControl bind:num={GZ.cfg.height} unit={"Inch"}
         title={"Drop Height"}
-        unit={"INCH"}
+        enabled={true}
+        on:validate={validateConfig}
     />
 
 </div>
