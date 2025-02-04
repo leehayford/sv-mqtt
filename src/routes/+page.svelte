@@ -28,7 +28,7 @@
         <div class="row hdr-title">2Chainz</div>
         
         <div class="row hdr-status">{GZ.ops.status}</div>
-            
+
         <ButtonIcon img={img_lock} color={RGBA(BASE.LIGHT, 0.6)} 
             func={(GZ.ops.diagnostic_mode ? GZ.mqttCMDDisableDiagMdoe : GZ.mqttCMDEnableDiagMdoe)} />
  

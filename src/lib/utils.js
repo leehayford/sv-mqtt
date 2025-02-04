@@ -50,7 +50,8 @@ export const openModals = ( initial ) => {
     }
 }
 
-export const ALERT = writable( "" )
+export const ALERT_HEAD = writable( "" )
+export const ALERT_MSG = writable( "" )
 export const ALERT_CODE = writable( 0 )
 export const ALERT_CODES = {
     SUCCESS: 1,
@@ -58,10 +59,11 @@ export const ALERT_CODES = {
     ERROR: 3
 }
 
-export const alert = async( code, msg ) => {
-    debug( `${ DBGPFX } alert( ${ code }, ${ msg } )` )
+export const alert = async( head, msg, code ) => {
+    debug( `${ DBGPFX } alert( ${ head }, ${ msg }, ${ code } )` )
+    ALERT_HEAD.set( head )
+    ALERT_MSG.set( msg )
     ALERT_CODE.set( code )
-    ALERT.set( msg )
 }
 
 

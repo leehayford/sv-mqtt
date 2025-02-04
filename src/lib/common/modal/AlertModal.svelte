@@ -2,7 +2,7 @@
 
 <script>
 
-    import {ALERT, ALERT_CODE, ALERT_CODES, openModals, debug} from '../../utils'
+    import {ALERT_HEAD, ALERT_MSG, ALERT_CODE, ALERT_CODES, openModals, debug} from '../../utils'
     import {RGBA, BASE} from "../colors"
 
     import ButtonIcon from '../button_icon/ButtonIcon.svelte'
@@ -58,30 +58,32 @@
             alertIntervalID = null
         }
 
+        ALERT_HEAD.set("")
+        ALERT_MSG.set("")
         ALERT_CODE.set(0)
-        ALERT.set("")
         close()
     }
 
     let title = $state("")
     let color = $state(BASE.BLUE)
-    let colorText =  RGBA(BASE.LIGHT, 0.8)
+    let colorHeadText =  $derived(RGBA(BASE.LIGHT, 0.6))
+    let colorMsgText =  RGBA(BASE.LIGHT, 0.8)
     let colorTitleText = RGBA(BASE.LIGHT, 0.6)
-    let colorBorder = $derived(RGBA(color, 0.2))
-    let colorBackround = $derived(RGBA(color, 0.2))
-    let colorHdrBackround = $derived(RGBA(color, 0.13))
+    let colorBorder = $derived(RGBA(color, 0.21))
+    let colorBackround = $derived(RGBA(color, 0.17))
+    let colorHdrBackround = $derived(RGBA(color, 0.17))
     $effect(() => {
-        if ($ALERT !== "") {
+        if ($ALERT_MSG !== "") {
             switch($ALERT_CODE) {
                 case ALERT_CODES.SUCCESS:
                     title = "SUCCESS"
                     color = BASE.SEAFOAM
-                    showAlert(3000)
+                    showAlert(10000)
                     break
                 case ALERT_CODES.WARNING:
                     title = "WARNING"
-                    color = BASE.ORANGE
-                    showAlert(5000)
+                    color = BASE.AMBER
+                    showAlert(15000)
                     break
                 case ALERT_CODES.ERROR:
                     title = "ERROR"
@@ -101,31 +103,44 @@
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <div class="backdrop"></div>
 
-        <div class="col-panel left container" 
-            style="background-color:rgb(0, 0, 23, 1);border-color:{colorBorder};"
-            >
+        <div class="col-panel left container" style="
+            background-color:rgb(0, 0, 23, 1);
+            border-color:{colorBorder};">
             
-            <div class="col-panel-header left hdr" 
-                style="background-color:{colorHdrBackround};border-color:{colorBorder};"
-                >
-                <h3 class="title" style="color:{colorTitleText};">{title}</h3>
+            <div class="col-panel-header left title-bar" style="
+                background-color:{colorHdrBackround};
+                border-color:{colorBorder};
+                border-bottom: solid 0.1em var(--drk)">
+                <h3 class="title" style="
+                    color:{colorTitleText};">
+                    {title}
+                </h3>
+                <ButtonIcon img={img_accept} func={clearAlert} color={RGBA(color, 0.7)} />
             </div>
             
-            <div class="col-panel-content content">
+            <div class="col-panel-content content" style="
+                background-color:{colorBackround};
+                color:{colorMsgText};">
 
-                <div class="row msg" 
-                    style="background-color:{colorBackround};color:{colorText};"
-                    >
-                    <p>{ $ALERT }</p>
+                <div class="headline">
+                    <p style="
+                        background-color:{colorBackround};
+                        color:{colorHeadText};">
+                        { $ALERT_HEAD.toUpperCase() }
+                    </p>
+                </div>
+
+                <div class="row msg">
+                    <p>{ $ALERT_MSG }</p>
                 </div>
                 
-                <div class="row btns">
-                    <p>OK</p>
-                    <ButtonIcon img={img_accept} func={clearAlert} color={RGBA(color, 0.7)} />
-                </div>
-
             </div>
             
+            <!-- <div class="row btns"style="
+                color:{colorTitleText};">
+                <ButtonIcon img={img_accept} func={clearAlert} color={RGBA(color, 0.7)} />
+            </div> -->
+
         </div>
 
     </div>
@@ -158,43 +173,50 @@
             z-index: 4;
             opacity: 0.85;
         }
-        .hdr { padding: 0 1.5em; }
         .container {
             align-items: center;
             justify-content: center;
             height: auto;
-            min-width: 30em;
-            max-width: 30em;
+            min-width: 90%;
+            max-width: 90%;
             opacity: 1;
-            gap: 0.5em;
+            gap: 1em;
             z-index: 11;
+            padding-bottom: 1em;
         }
-        .content {
-            padding: 0.5em 1.5em;
-            width: 100%;
+        .title-bar { 
+            grid-template-columns: 1fr 2.2em;
         }
         .title {
             font-size: 1.7em;
             font-weight: 300; 
             padding: 0;
         }
+        .content {
+            border-radius: 0.25em;
+            padding: 1em;
+            width: 93%;
+        }
+        
+        .headline p { 
+            /* background-color: var(--drk); */
+            justify-content: center;
+            text-align: center;
+            border-radius: 0.25em;
+            font-weight: 400;
+            font-size: 1.6em;
+            padding: 0.25em;
+        }
+
         .msg { 
             justify-content: center;
             text-align: center;
             border-radius: 0.25em;
             font-size: 1.2em;
-            padding: 1em;
+            padding: 0.5em;
         }
         .msg p {
-            font-size: 1.5em;
+            font-size: 1.25em;
         }
-        .btns {
-            justify-content: flex-end;
-            align-items: center;
-            gap: 0.75em;
-        }
-        
-        .btns p {
-            font-size: 1.5em;
-        }
+
     </style>

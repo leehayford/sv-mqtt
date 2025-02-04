@@ -91,7 +91,7 @@ export class Machine {
     mqttConnect = () => {
         
         console.log('MQTT client connecting...')
-        this.mqttClientID = '2chainz_' + Math.random().toString(16).substr(2, 8)
+        this.mqttClientID = '2ChainzUI_' + Math.random().toString(13).substring(2, 15)
         this.mqttClient = mqtt.connect(MQTT_BROKER, {      
             keepalive: MQTT_OPT_KEEP,
             clientId: this.mqttClientID,
@@ -125,7 +125,7 @@ export class Machine {
             switch(topic) {
                 case MQTT_SIG_ERR: 
                     this.err.parse(msg) 
-                    alert(this.err.code, this.err.message) 
+                    alert(this.err.headline, this.err.message, this.err.code) 
                     console.log(this.err.toJson())
                     break
 
