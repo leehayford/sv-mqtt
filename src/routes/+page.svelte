@@ -24,16 +24,14 @@
 <div class="container">
 
     <div class="row hdr">
-        <div class="row hdr-title"> 2Chainz </div>
-        <div class="row hdr-content">
-            <div class="row hdr-status">{GZ.ops.status}</div>
-            {#if !GZ.ops.diagnostic_mode}
-            <ButtonIcon func={GZ.mqttCMDEnableDiagMdoe} img={img_led} color={RGBA(BASE.LIGHT, 0.0)} />
-            {:else}
-            <ButtonIcon func={GZ.mqttCMDDisableDiagMdoe} img={img_lock} color={RGBA(BASE.LIGHT, 0.6)} />
-            {/if}
-        </div>
-         
+
+        <div class="row hdr-title">2Chainz</div>
+        
+        <div class="row hdr-status">{GZ.ops.status}</div>
+            
+        <ButtonIcon img={img_lock} color={RGBA(BASE.LIGHT, 0.6)} 
+            func={(GZ.ops.diagnostic_mode ? GZ.mqttCMDDisableDiagMdoe : GZ.mqttCMDEnableDiagMdoe)} />
+ 
     </div>
 
     <br>
@@ -41,27 +39,33 @@
     <div class="col controls">
         
         {#if GZ.ops.diagnostic_mode}
-        <AdminPanel />
-        <DiagnosticPanel />
-        {:else if GZ.ops.want_aid}
-        <div class="row aid-prompt">
-            <h3>OK to continue?</h3>
-            <div class="row conf-btns">
-                <ButtonIcon func={GZ.mqttCMDReset} img={img_reset} color={RGBA(BASE.ORANGE, 0.8)} />
-                <ButtonIcon func={GZ.mqttCMDContinue} img={img_accept} color={RGBA(BASE.SEAFOAM, 0.7)} />
+
+            <AdminPanel />
+
+        {:else }
+
+            {#if GZ.ops.want_aid}
+            <div class="row aid-prompt">
+                <h3>OK to continue?</h3>
+                <div class="row conf-btns">
+                    <ButtonIcon func={GZ.mqttCMDReset} img={img_reset} color={RGBA(BASE.ORANGE, 0.8)} />
+                    <ButtonIcon func={GZ.mqttCMDContinue} img={img_accept} color={RGBA(BASE.SEAFOAM, 0.7)} />
+                </div>
             </div>
-        </div>
-        {:else if !GZ.cfg.run}
-        <ConfigPanel />
-        {:else}
-        <ProgressPanel />
+            {/if}
+
+            {#if !GZ.cfg.run} <ConfigPanel />
+
+            {:else} <ProgressPanel />
+
+            {/if}
+
+            <IOStatePanel />
+
         {/if}
         
     </div>
 
-    <br>
-
-    <IOStatePanel />
 
 </div>
 
@@ -85,11 +89,10 @@
         font-weight: 350;
         gap:0;
     }
-    .hdr-content {
-        align-items: center;
-    }
+
     .hdr-status {
-        color: var(--pnk07);
+        align-items: center;
+        color: var(--ylw07);
         font-size: 1.4em; 
         font-weight: 300;
     }

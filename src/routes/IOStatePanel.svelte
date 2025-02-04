@@ -13,7 +13,7 @@
     let GZ = $state(getContext('gizmo'))
 
     let colorOK = RGBA(BASE.SEAFOAM, 0.7)
-    let colorWarn = RGBA(BASE.ORANGE, 0.8)
+    let colorWarn = RGBA(BASE.AMBER, 0.8)
     let colorFault = RGBA(BASE.RED, 0.8)
     let colorNone = RGBA(BASE.LIGHT, 0.05)
 
@@ -24,7 +24,7 @@
     <div class="row sec-hdr">
         <h3>IO Pin & Operational State: </h3>
         <div class="row conf-btns">
-            <ButtonIcon img={img_question} color={RGBA(BASE.AQUA, 0.7)} 
+            <ButtonIcon img={img_question} color={RGBA(BASE.GREY, 0.7)} 
             func={GZ.mqttCMDReport} />
         </div>
     </div>
@@ -174,20 +174,20 @@
     }
     
     .stat-hdr .lbl {
-        color: var(--aqu07);
+        color: var(--gry07);
         justify-content: flex-end;
         align-items: center;
         font-size: 1.3em;
     }
     .stat-hdr p {
-        color: var(--aqu07);
+        color: var(--gry07);
         /* justify-content: flex-end; */
         align-items: center;
         font-size: 1.3em;
     }
 
     .stat-led-hdr {
-        color: var(--pnk07);
+        color: var(--ylw07);
         font-size: 1.3em;
         width: var(--ctrl-h-m);
     }

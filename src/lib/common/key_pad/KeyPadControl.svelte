@@ -36,13 +36,13 @@
     <div class="control" onclick={openKeyPad} onkeydown={openKeyPad} >
         <div class="title">{title}</div>
         <div class="num {(enabled ? 'num-en' : 'num-dis')}">
-            {(isInteger ? num.toFixed(0) : num.toFixed(3))}
+            {(isInteger ? Number(num).toFixed(0) : Number(num).toFixed(3))}
         </div>
         <div class="unit">{unit}</div>
     </div>
-    {#if note !== ""}
+    <!-- {#if note !== ""}
     <div class="note">{note}</div>
-    {/if}
+    {/if} -->
 </div>
 
 <style>
@@ -52,7 +52,7 @@
         grid-template-columns: 1fr 1fr 5em;
         align-items: center;
         min-height: 2.5em;
-        gap:0.75em;
+        gap:0.5em;
     }
     .title {
         display: flex;
@@ -60,18 +60,18 @@
         align-items: center;
         justify-content: flex-end;
         color: var(--ylw07);
-        font-size: 1.4em; 
+        font-size: 1.375em; 
         font-weight: 300;
         padding-left: 1em;
     }
-    .note {
+    /* .note {
         color: var(--gry07);
         display: flex;
         flex-direction: row;
         justify-content: center;
         margin-top: -1.0em;
         font-size: 1.1em;
-    }
+    } */
     .num {
         font-size: 1.7em; 
         font-weight: 300;

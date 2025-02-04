@@ -10,9 +10,7 @@
 
     let GZ = $state(getContext('gizmo'))
 
-    let showStartButton = $state(false)
-    const validateConfig = () => {showStartButton = GZ.cfg.validate()}
-    
+
 </script>
 
 <div class="col">
@@ -20,7 +18,10 @@
         <h3>Configuration:</h3>
         
         <div class="row conf-btns">
-            {#if showStartButton}
+            {#if    GZ.cfg.cycles > 0
+            &&      GZ.cfg.height > 0
+            &&      GZ.cfg.height < GZ.adm.mot_inch_max
+            }
             <ButtonIcon func={GZ.mqttCMDConfig} img={img_start} color={RGBA(BASE.SEAFOAM, 0.7)} />
             {/if}
         </div>
@@ -29,13 +30,11 @@
     <KeyPadControl bind:num={GZ.cfg.cycles} isInteger={true} unit={"Qty"}
         title={"# of Drops"}
         enabled={true}
-        on:validate={validateConfig}
     />
 
     <KeyPadControl bind:num={GZ.cfg.height} unit={"Inch"}
         title={"Drop Height"}
         enabled={true}
-        on:validate={validateConfig}
     />
 
 </div>

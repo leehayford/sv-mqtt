@@ -13,7 +13,7 @@
         alarm = $bindable(false),
         io = $bindable(false),
         ioOff = RGBA(BASE.LIGHT, 0.05),
-        ioOn = RGBA(BASE.YELLOW, 0.7),
+        ioOn = RGBA(BASE.AMBER, 0.7),
         op = $bindable(false),
         opOff = RGBA(BASE.LIGHT, 0.05),
         opOn = RGBA(BASE.SEAFOAM, 0.7),

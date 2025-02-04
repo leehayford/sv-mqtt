@@ -240,7 +240,7 @@ export class Machine {
     
     mqttDIAGMoveUp = () => this.mqttPublish(MQTT_DIAG_MOVE_UP, '')
     mqttDIAGMoveDown = () => this.mqttPublish(MQTT_DIAG_MOVE_DOWN, '')
-    mqttDIAGMotorStop = () => this.mqttPublish(MQTT_DIAG_MOTOR_ON, '')
+    mqttDIAGMotorStop = () => this.mqttPublish(MQTT_DIAG_MOTOR_STOP, '')
 
     mqttPublish = (topic, cmd) => {this.mqttClient.publish(topic, cmd)}
 }

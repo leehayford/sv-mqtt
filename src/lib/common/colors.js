@@ -50,6 +50,7 @@ export const BASE = {
     LIGHT: LIGHT,
     RED: REDSEED.c1,
     ORANGE: REDSEED.c1x,
+    AMBER: "230, 180, 20",
     YELLOW: REDSEED.c3c,
     LIME: REDSEED.c3y, // LIME
     GREEN: REDSEED.c2,

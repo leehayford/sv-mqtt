@@ -12,6 +12,10 @@ export class State {
     
     motor_steps = $state(0)
     current_height = $state(0.0)
+    
+    hammer_timeout = $state(false)
+    interrupt_flag = $state(false)
+    brake_timeout = $state(false)
 
     parse = (msg) => {
         let js = JSON.parse(msg) // console.log("JSON.parse(msg): ", js)
@@ -29,6 +33,10 @@ export class State {
         
         this.motor_steps = js.motor_steps
         this.current_height = js.current_height
+        
+        this.hammer_timeout = js.hammer_timeout
+        this.interrupt_flag = js.interrupt_flag
+        this.brake_timeout = js.brake_timeout
     }
 
     toJson = () => {
@@ -45,7 +53,11 @@ export class State {
             magnet_on: this.magnet_on,
 
             motor_steps: this.motor_steps,
-            current_height: this.current_height
+            current_height: this.current_height,
+        
+            hammer_timeout: this.hammer_timeout,
+            interrupt_flag: this.interrupt_flag,
+            brake_timeout: this.brake_timeout
         }
     }
     

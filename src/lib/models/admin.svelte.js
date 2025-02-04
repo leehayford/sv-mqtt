@@ -1,7 +1,7 @@
 export class Admin {
     ops_tmr_hammer_usec = $state(500000)
+    ops_tmr_brake_usec = $state(300000)
     ops_pos_period_msec = $state(300)
-    ops_mag_delay_msec = $state(300)
     
     io_tmr_itr_deb_usec = $state(2000)
     
@@ -26,8 +26,8 @@ export class Admin {
         let js = JSON.parse(msg) // console.log("JSON.parse(msg): ", js)
 
         this.ops_tmr_hammer_usec = js.ops_tmr_hammer_usec
+        this.ops_tmr_brake_usec = js.ops_tmr_brake_usec
         this.ops_pos_period_msec = js.ops_pos_period_msec
-        this.ops_mag_delay_msec = js.ops_mag_delay_msec
         
         this.io_tmr_itr_deb_usec = js.io_tmr_itr_deb_usec
         
@@ -52,8 +52,8 @@ export class Admin {
     toJson = () => {
         return {
             ops_tmr_hammer_usec: this.ops_tmr_hammer_usec,
+            ops_tmr_brake_usec:this.ops_tmr_brake_usec,
             ops_pos_period_msec: this.ops_pos_period_msec,
-            ops_mag_delay_msec:this.ops_mag_delay_msec,
             
             io_tmr_itr_deb_usec: this.io_tmr_itr_deb_usec,
             
