@@ -120,22 +120,24 @@
         on:validate={GZ.mqttCMDAdmin}
     />
 
-    <KeyPadControl bind:num={GZ.adm.mot_inch_rev} unit={"Inch"}
+    <!-- <KeyPadControl bind:num={GZ.adm.mot_inch_rev} unit={"Inch"}
         title={"Motor Inches / Rev"}
         bind:enabled={edit}
         on:validate={GZ.mqttCMDAdmin}
-    />
+    /> -->
+
     <KeyPadControl bind:num={GZ.adm.mot_steps_rev} isInteger={true} unit={"Step"}
         title={"Motor Steps / Rev"}
         bind:enabled={edit}
         on:validate={GZ.mqttCMDAdmin}
     />
     
-    <KeyPadControl bind:num={GZ.adm.mot_inch_max} unit={"Inch"}
+    <!-- <KeyPadControl bind:num={GZ.adm.mot_inch_max} unit={"Inch"}
         title={"Motor Max Height"}
         bind:enabled={edit}
         on:validate={GZ.mqttCMDAdmin}
-    />
+    /> -->
+    
     <KeyPadControl bind:num={GZ.adm.mot_inch_over} unit={"Inch"}
         title={"Motor Overshoot"}
         note={"Distance to overshoot when returning to home position"}

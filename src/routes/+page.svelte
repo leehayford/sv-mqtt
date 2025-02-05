@@ -19,6 +19,16 @@
 
     let GZ = $state(getContext('gizmo'))
 
+    // const alertTestError = () => {
+    //     alert("Error Headline Text", "error message text, which is usually longer", ALERT_CODES.ERROR)
+    // }
+    // const alertTestWarn = () => {
+    //     alert("Warning Headline Text", "warning message text, which is usually longer", ALERT_CODES.WARNING)
+    // }
+    // const alertTestSuccess = () => {
+    //     alert("Success Headline Text", "success message text, which is usually longer", ALERT_CODES.SUCCESS)
+    // }
+
 </script>
 
 <div class="container">
@@ -28,9 +38,17 @@
         <div class="row hdr-title">2Chainz</div>
         
         <div class="row hdr-status">{GZ.ops.status}</div>
+        
+        <!-- <ButtonIcon color={RGBA(BASE.RED, 0.6)} func={alertTestError} />
+        <ButtonIcon color={RGBA(BASE.AMBER, 0.6)} func={alertTestWarn} />
+        <ButtonIcon color={RGBA(BASE.SEAFOAM, 0.6)} func={alertTestSuccess} /> -->
+        
+        {#if GZ.ops.diagnostic_mode}
+        <ButtonIcon img={img_lock} color={RGBA(BASE.AQUA, 0.7)} func={GZ.mqttCMDDisableDiagMdoe} />
+        {:else}
+        <ButtonIcon img={img_lock} color={RGBA(BASE.AQUA, 0.0)} func={GZ.mqttCMDEnableDiagMdoe} />
+        {/if}
 
-        <ButtonIcon img={img_lock} color={RGBA(BASE.LIGHT, 0.6)} 
-            func={(GZ.ops.diagnostic_mode ? GZ.mqttCMDDisableDiagMdoe : GZ.mqttCMDEnableDiagMdoe)} />
  
     </div>
 
@@ -98,10 +116,12 @@
     }
 
     .aid-prompt {
-        background-color: var(--ong01);
+        background-color: var(--ong03);
         align-items: center;
         justify-content: space-between;
         border-radius: 2em;
+        /* border-bottom-left-radius: 2em;
+        border-bottom-right-radius: 2em; */
         padding: 0.5em 1em;
     }
     .aid-prompt h3 {
@@ -110,6 +130,7 @@
 
     .controls {
         padding-bottom: 1em;
+        gap: 1.5em;
     }
 
 

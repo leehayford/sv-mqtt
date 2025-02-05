@@ -69,9 +69,9 @@
     let colorHeadText =  $derived(RGBA(BASE.LIGHT, 0.6))
     let colorMsgText =  RGBA(BASE.LIGHT, 0.8)
     let colorTitleText = RGBA(BASE.LIGHT, 0.6)
-    let colorBorder = $derived(RGBA(color, 0.21))
-    let colorBackround = $derived(RGBA(color, 0.17))
-    let colorHdrBackround = $derived(RGBA(color, 0.17))
+    let colorBorder = $derived(RGBA(color, 0.3))
+    let colorBackround = $derived(RGBA(color, 0.23))
+    let colorHdrBackround = $derived(RGBA(color, 0.23))
     $effect(() => {
         if ($ALERT_MSG !== "") {
             switch($ALERT_CODE) {
@@ -185,7 +185,7 @@
             padding-bottom: 1em;
         }
         .title-bar { 
-            grid-template-columns: 1fr 2.2em;
+            grid-template-columns: 1fr 2.6em;
         }
         .title {
             font-size: 1.7em;
@@ -199,7 +199,6 @@
         }
         
         .headline p { 
-            /* background-color: var(--drk); */
             justify-content: center;
             text-align: center;
             border-radius: 0.25em;

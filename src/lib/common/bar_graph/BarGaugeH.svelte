@@ -41,7 +41,7 @@
         <div style="color: {title_color}">{title}</div>
     </div>
 
-    <div class="vert-line"></div>
+    <!-- <div class="vert-line"></div> -->
 
     <dvi class="row gauge-contatiner">
 
@@ -70,6 +70,8 @@
 <style>
 
     .container {
+        display: grid;
+        grid-template-columns: 5em 1fr;
         align-items: center;
     }
 
@@ -88,25 +90,27 @@
     }
 
     .title {
-        min-width: 5em;
-        width:auto;
+        justify-content: flex-end;
+        align-items: center;
+        /* min-width: 5em; */
+        /* width:auto; */
     }
 
     .bar {
-        height: 0.9em;
+        height: 1.5em;
     }
 
     .num {
         font-size: 1.125em;
-        /* width: 6em; */
+        width: 4em;
         height: 1.5em;
         text-align: right;
     }
     .unit {
         text-align: left;
         color: var(--grey_a);
-        font-size: 0.9em;
-        /* width: auto; */
+        font-size: 1.2em;
+        width: 3em;
     }
 
 </style>

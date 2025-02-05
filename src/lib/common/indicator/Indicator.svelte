@@ -33,11 +33,6 @@
     <!-- <div class="row lbl" style="color:{RGBA(BASE.GREY, 0.5)};">{type}</div> -->
     <div class="row lbl" style="color:{RGBA(BASE.LIGHT, 0.7)};">{name}</div>
 
-    <!-- <div class="icon" 
-        style="
-        background-image: url({img});
-        background-color:{(alarm ? colorAlarm : colorClear)};">
-    </div> -->
     <div class="icon" 
         style="
         background-image: url({img});
@@ -48,12 +43,6 @@
         background-image: url({img});
         background-color:{(op ? opOn : opOff)};">
     </div>
-
-    <!-- <div style="color:{(alarm ? colorAlarm : colorClear)};">
-
-        {(alarm ? lblAlarm : lblClear)}
-
-    </div> -->
 
     <div style="color:{(op ? opOn : opOff)};">
 

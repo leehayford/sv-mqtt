@@ -110,7 +110,7 @@
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
-<dialog style="padding: 1em;"
+<dialog 
     bind:this={dialog}
     onclose={() => (showKeyPad = false)}
 	onclick={(e) => { if (e.target === dialog) confirm() }}
@@ -159,6 +159,8 @@
 </dialog>
 
 <style>
+
+    
 
     .hdr {
         display: grid;

@@ -26,26 +26,24 @@
 
         </div>
     </div>
-    <PanelControl>
+    
     <BarGaugeH  
         color={BASE.SEAFOAM}
         bind:num={GZ.percentComplete}
         max={GZ.cfg.cycles}
-        title="Complete"
-        unit={`/${GZ.cfg.cycles}`}
+        title="COMPLETE"
+        unit={`/\n${GZ.cfg.cycles}`}
     />
-    </PanelControl>
     
-    <PanelControl>
     <BarGaugeH  
         color={BASE.SEAFOAM}
         bind:num={GZ.position}
         max={(GZ.cfg.height === 0 ? 48 : GZ.cfg.height)}
         dec=2
-        title="Position"
+        title="POSITION"
         unit="INCH"
     />
-    </PanelControl>
+    
 </div>
 
 <style>

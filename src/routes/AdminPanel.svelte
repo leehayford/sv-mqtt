@@ -60,10 +60,6 @@
         
     </div>
 
-    <!-- <div class="col content" style="
-        border-top-left-radius: {(operations ? '0' : '0.5em')};
-        border-top-right-radius: {(settings ? '0' : '0.5em')};
-        "> -->
     <div class="col content" >
         {#if operations}
         <DiagnosticPanel />
@@ -85,6 +81,7 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap:0;
+        margin-top: -1em;
     }
 
     .tab-btn {
@@ -94,18 +91,17 @@
         justify-content: center;
         font-size: 1.5em;
         color: var(--ylw06);
-        border-top-left-radius: 0.5em;
-        border-top-right-radius: 0.5em;
+        border-top-left-radius: 0.25em;
+        border-top-right-radius: 0.25em;
         border-bottom: solid 0.05em var(--drk);
-        padding-bottom: 0.15em;
+        padding: 0.2em 0;
     }
 
     .content {
         border-top: solid 0.05em var(--ylw03);
-        /* border-bottom-left-radius: 0.5em;
-        border-bottom-right-radius: 0.5em; */
         padding: 0.5em 0;
         margin-top: -0.05em;
+        gap: 0.25em;
     }
 
 </style>

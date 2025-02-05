@@ -9,8 +9,8 @@
         img = defaultImage,
         color = $bindable(RGBA(BASE.ORANGE, 0.7)),
         enabled = true,
-        show = true,
-        size ='2.9em',
+        show = $bindable(true),
+        size ='3.3em',
         hint = null,
         func = $bindable()
     } = $props()

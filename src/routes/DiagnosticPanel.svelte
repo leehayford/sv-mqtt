@@ -16,10 +16,6 @@
 
     let GZ = $state(getContext('gizmo'))
 
-    let brake = $derived(GZ.sta.brake_on)
-    let magnet = $derived(GZ.sta.magnet_on)
-
-
 </script>
 
 
@@ -28,21 +24,25 @@
     <div class="diag-control">
         <p class="lbl">Brake</p>
         <br>
-        <ButtonIcon img={img_led} 
-            color={(brake ? RGBA(BASE.SEAFOAM, 0.7) : RGBA(BASE.LIGHT, 0.0))} 
-            func={(brake ? GZ.mqttDIAGBrakeOff : GZ.mqttDIAGBrakeOn)} />
+        {#if GZ.sta.brake_on}
+        <ButtonIcon img={img_led} color={RGBA(BASE.SEAFOAM, 0.7)} func={GZ.mqttDIAGBrakeOff} />
+        {:else}
+        <ButtonIcon img={img_led} color={RGBA(BASE.SEAFOAM, 0.0)} func={GZ.mqttDIAGBrakeOn} />
+        {/if}
         <br>
-        <p class="state">{(brake ? "ON" : "OFF")}</p>
+        <p class="state">{(GZ.sta.brake_on ? "ON" : "OFF")}</p>
     </div>
 
     <div class="diag-control">
         <p class="lbl">Magnet</p>
         <br>
-        <ButtonIcon img={img_led} 
-            color={(magnet ? RGBA(BASE.SEAFOAM, 0.7) : RGBA(BASE.LIGHT, 0.0))} 
-            func={(magnet ? GZ.mqttDIAGMagnetOff : GZ.mqttDIAGMagnetOn)} />
+        {#if GZ.sta.magnet_on}
+        <ButtonIcon img={img_led} color={RGBA(BASE.SEAFOAM, 0.7)} func={GZ.mqttDIAGMagnetOff} />
+        {:else}
+        <ButtonIcon img={img_led} color={RGBA(BASE.SEAFOAM, 0.0)} func={GZ.mqttDIAGMagnetOn} />
+        {/if}
         <br>
-        <p class="state">{(magnet ? "ON" : "OFF")}</p>
+        <p class="state">{(GZ.sta.magnet_on ? "ON" : "OFF")}</p>
     </div>
 
     <KeyPadControl bind:num={GZ.sta.current_height} unit={"Inch"}

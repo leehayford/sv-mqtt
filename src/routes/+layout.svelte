@@ -25,7 +25,9 @@
     
     <AlertModal />
 
-    <div class="col layout"><slot/></div>
+    <div class="col layout">
+        <slot/>
+    </div>
 
 </div>
 
@@ -49,8 +51,13 @@
     .layout {
         background-color: transparent;
         overflow: hidden;
-        width: 90%;
-        padding: 0.75em;
+        width: 100%;
+        padding: 1em 1.5em;
         height: 100%;
     }
+
+    @media(max-width: 500px) {
+        .layout { padding-right: 3em; }
+    }
+
 </style>
