@@ -22,6 +22,8 @@ export class Ops {
     want_brake_on = $state(false)
     want_strike = $state(false)
     
+    run = $state(false)
+    pause = $state(true)
     cycle_count = $state(0)
     step_target = $state(0)
     step_hz = $state(0)
@@ -53,6 +55,8 @@ export class Ops {
         this.want_brake_on = js.want_brake_on
         this.want_strike = js.want_strike
 
+        this.run = js.run
+        this.pause = js.pause
         this.cycle_count = js.cycle_count
         this.step_target = js.step_target
         this.step_hz = js.step_hz
@@ -84,6 +88,8 @@ export class Ops {
             want_brake_on: this.want_brake_on,
             want_strike: this.want_strike,
             
+            run: this.run,
+            pause: this.pause,
             cycle_count: this.cycle_count,
             step_target: this.step_target,
             step_hz: this.step_hz,
@@ -125,6 +131,8 @@ Message:
     "drop_hammer": true,
     "want_strike": true,
 
+    "run": true,
+    "pause": true,
     "cycle_count": 999,
     "step_target": 1000,
     "step_hz": 4000,

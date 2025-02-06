@@ -10,6 +10,7 @@
     import ButtonIcon from '$lib/common/button_icon/ButtonIcon.svelte'
     import img_led from '$lib/assets/LED.svg'
     import img_cancel from '$lib/assets/Cancel.svg'
+    import img_zero from '$lib/assets/Zero.svg'
     import img_up from '$lib/assets/MoveUp.svg'
     import img_down from '$lib/assets/MoveDown.svg'
     import img_stop from '$lib/assets/Stop.svg'
@@ -59,6 +60,7 @@
         on:validate={GZ.mqttCMDAdmin}
     />
     <div class="row motor-btns">
+        <ButtonIcon func={GZ.mqttDIAGMotorZero} img={img_zero} color={RGBA(BASE.SEAFOAM, 0.6)} />
         <ButtonIcon func={GZ.mqttDIAGMoveUp} img={img_up} color={RGBA(BASE.AMBER, 0.6)} />
         <ButtonIcon func={GZ.mqttDIAGMoveDown} img={img_down} color={RGBA(BASE.PINK, 0.6)} />
         <ButtonIcon func={GZ.mqttDIAGMotorStop} img={img_stop} color={RGBA(BASE.RED, 0.7)} />
@@ -72,8 +74,8 @@
         display: grid;
         grid-template-columns: 1fr 1em 3em 1em 1fr;
         align-items: center;
-        min-height: 3em;
-        max-height: 3em;
+        min-height: var(--hdr_h);
+        max-height: var(--hdr_h);
         width:100%;
         padding:0 0.5em;
         gap:0.75em;

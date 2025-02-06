@@ -2,7 +2,7 @@
 
     import {getContext} from 'svelte'
 
-    import {ALERT_CODES, alert} from '$lib/utils'
+    import {ALERT_CODES, showAlert} from '$lib/utils'
     import {RGBA, BASE} from '$lib/common/colors'
 
     import AdminPanel from './AdminPanel.svelte'
@@ -20,13 +20,13 @@
     let GZ = $state(getContext('gizmo'))
 
     // const alertTestError = () => {
-    //     alert("Error Headline Text", "error message text, which is usually longer", ALERT_CODES.ERROR)
+    //     showAlert("Error Headline Text", "error message text, which is usually longer", ALERT_CODES.ERROR)
     // }
     // const alertTestWarn = () => {
-    //     alert("Warning Headline Text", "warning message text, which is usually longer", ALERT_CODES.WARNING)
+    //     showAlert("Warning Headline Text", "warning message text, which is usually longer", ALERT_CODES.WARNING)
     // }
     // const alertTestSuccess = () => {
-    //     alert("Success Headline Text", "success message text, which is usually longer", ALERT_CODES.SUCCESS)
+    //     showAlert("Success Headline Text", "success message text, which is usually longer", ALERT_CODES.SUCCESS)
     // }
 
 </script>
@@ -72,7 +72,7 @@
             </div>
             {/if}
 
-            {#if !GZ.cfg.run} <ConfigPanel />
+            {#if !GZ.ops.run} <ConfigPanel />
 
             {:else} <ProgressPanel />
 
@@ -98,7 +98,8 @@
 
     .hdr {
         padding-bottom: 0.5em;
-        border-bottom: solid 0.1em var(--gry02);
+        border-bottom: solid 0.1em var(--aqu03);
+        min-height: 3.9em;
     }
     .hdr-title {
         color: var(--aqu07);

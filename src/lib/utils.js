@@ -59,8 +59,8 @@ export const ALERT_CODES = {
     ERROR: 3
 }
 
-export const alert = async( head, msg, code ) => {
-    debug( `${ DBGPFX } alert( ${ head }, ${ msg }, ${ code } )` )
+export const showAlert = async( head, msg, code ) => {
+    debug( `${ DBGPFX } showAlert( ${ head }, ${ msg }, ${ code } )` )
     ALERT_HEAD.set( head )
     ALERT_MSG.set( msg )
     ALERT_CODE.set( code )

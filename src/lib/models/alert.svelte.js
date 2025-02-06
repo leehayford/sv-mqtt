@@ -1,4 +1,4 @@
-export class Error {
+export class Alert {
     headline = $state("")
     message = $state("")
     code = $state(3)
@@ -21,7 +21,7 @@ export class Error {
 }
 
 /*
-Topic: .../sig/error
+Topic: .../sig/alert
 
 Message: SUCCESS
 {

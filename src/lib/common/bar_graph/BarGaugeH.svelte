@@ -16,7 +16,9 @@
     
     let nan = "-"
     $effect(() => { 
-        if  ( num === null || num === nan) {
+        if( ( num === null || num === nan) 
+        ||  ( max === 0 && num === 0)
+        ) {
             num = nan
             width = 0
         } else {
@@ -25,7 +27,7 @@
             // if ( Math.round(num) === 0) num = 0 
             
             let val = num / (max - min) * 100
-            width = (val < 0 ? 0 : val) 
+            width = (val <= 0 ? 0 : val) 
         }
     })
 
@@ -41,8 +43,6 @@
         <div style="color: {title_color}">{title}</div>
     </div>
 
-    <!-- <div class="vert-line"></div> -->
-
     <dvi class="row gauge-contatiner">
 
         <div class="row bar" style="
@@ -54,7 +54,7 @@
 
         <div style="width:{100 - width}%"></div>
 
-        <div class="row value">
+        <div class="value">
             <div class="num" style="color: {title_color};">
                 {(num === nan ? nan : Number(num).toFixed(dec))}
             </div>
@@ -75,7 +75,9 @@
         align-items: center;
     }
 
-    .value {   
+    .value {  
+        display: grid; 
+        grid-template-columns: 3em 3em;
         align-items: center;
         width: auto;
         gap: 0.5em;
@@ -92,8 +94,6 @@
     .title {
         justify-content: flex-end;
         align-items: center;
-        /* min-width: 5em; */
-        /* width:auto; */
     }
 
     .bar {
@@ -102,15 +102,17 @@
 
     .num {
         font-size: 1.125em;
-        width: 4em;
-        height: 1.5em;
         text-align: right;
     }
     .unit {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
         text-align: left;
         color: var(--grey_a);
         font-size: 1.2em;
-        width: 3em;
+        width: 2.5em;
     }
 
 </style>

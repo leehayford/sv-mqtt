@@ -2,9 +2,9 @@
 import mqtt from  'mqtt' // npm install mqtt
 import {MQTT_BROKER, MQTT_USER, MQTT_PW, MQTT_DEVICE} from '$lib/app'
 
-import {ALERT_CODES, alert, waitMilli } from '$lib/utils';
+import {ALERT_CODES, showAlert, waitMilli } from '$lib/utils';
 
-import { Error } from './error.svelte'
+import { Alert } from './alert.svelte'
 import { Admin } from './admin.svelte'
 import { State } from './state.svelte'
 import { Config } from './config.svelte'
@@ -20,7 +20,7 @@ const MQTT_DIAG_PRFX =  MQTT_CMD_PRFX + 'diag/'
 
 /* MQTT Signal Topics */
 const MQTT_SIG_ALL = MQTT_SIG_PRFX + '#'
-const MQTT_SIG_ERR = MQTT_SIG_PRFX + 'error'
+const MQTT_SIG_ALERT = MQTT_SIG_PRFX + 'alert'
 const MQTT_SIG_ADMIN = MQTT_SIG_PRFX + 'admin'
 const MQTT_SIG_STATE = MQTT_SIG_PRFX + 'state'
 const MQTT_SIG_CONFIG = MQTT_SIG_PRFX + 'config'
@@ -29,17 +29,26 @@ const MQTT_SIG_OPS_POS = MQTT_SIG_OPS + '/pos'
 
 /* MQTT Command Topics */
 const MQTT_CMD_REPORT = MQTT_CMD_PRFX + 'report'
+
+/* MQTT Command Topics - ADMIN */
 const MQTT_CMD_ADMIN = MQTT_CMD_PRFX + 'admin'
 const MQTT_CMD_ADMIN_SET = MQTT_CMD_ADMIN + '/set_def'
 const MQTT_CMD_ADMIN_GET = MQTT_CMD_ADMIN + '/get_def'
+
+/* MQTT Command Topics - IO / HW STATE */
 const MQTT_CMD_STATE = MQTT_CMD_PRFX + 'state'
+
+/* MQTT Command Topics - CONFIG */
 const MQTT_CMD_CONFIG = MQTT_CMD_PRFX + 'config'
 
+/* MQTT Command Topics - OPS */
 const MQTT_CMD_OPS = MQTT_CMD_PRFX + 'ops'
 const MQTT_CMD_OPS_RESET = MQTT_CMD_OPS + '/reset'
+const MQTT_CMD_OPS_RUN = MQTT_CMD_OPS + '/run'
+const MQTT_CMD_OPS_PAUSE = MQTT_CMD_OPS + '/pause'
 const MQTT_CMD_OPS_CONTINUE = MQTT_CMD_OPS + '/continue'
 
-/* MQTT Diagnostic Command Topics */
+/* MQTT Command Topics - DIAGNOSTICS */
 const MQTT_DIAG_ENABLE = MQTT_DIAG_PRFX + 'enable'
 const MQTT_DIAG_DISABLE = MQTT_DIAG_PRFX + 'disable'
 
@@ -52,6 +61,7 @@ const MQTT_DIAG_MAGNET_OFF = MQTT_DIAG_PRFX + 'magnet_off'
 const MQTT_DIAG_MOVE_UP = MQTT_DIAG_PRFX + 'move_up'
 const MQTT_DIAG_MOVE_DOWN = MQTT_DIAG_PRFX + 'move_down'
 const MQTT_DIAG_MOTOR_STOP = MQTT_DIAG_PRFX + 'motor_stop'
+const MQTT_DIAG_MOTOR_ZERO = MQTT_DIAG_PRFX + 'motor_zero'
 
 
 const MQTT_OPT_KEEP = 60
@@ -65,21 +75,20 @@ const MQTT_OPT_TIMEOUT = MQTT_OPT_RECONN * 30
 const MAX_SWING_HEIGHT = 48.00
 
 export class Machine {
+    alrt
     adm
     sta
     cfg
     ops
-    err
 
     mqttClient
     mqttClientID
     mqttConnected = false
 
-    position = $state(0)
-    percentComplete = $state(0)
+    percentComplete = $state(0.0)
 
     constructor() { // console.log("New Machine")
-        this.err = new Error()
+        this.alrt = new Alert()
         this.adm = new Admin()
         this.sta = new State()
         this.cfg = new Config()
@@ -87,6 +96,16 @@ export class Machine {
         this.mqttConnect()
     }
 
+    findPercentComplete = () => {
+
+        this.percentComplete = (   
+            (   this.cfg.cycles > 0                             /* We have a valid cycle setting */
+            &&  this.ops.cycle_count <= this.cfg.cycles         /* we have a valid cycle count */
+            )
+                ? this.ops.cycle_count                          // Show the cycle count
+                : 0.0                                           // Otherwise, show 0
+        )
+    }
 
     mqttConnect = () => {
         
@@ -123,10 +142,10 @@ export class Machine {
         this.mqttClient.on('message', (topic, msg, pkt) => { // console.log(`${topic} -> ${msg.toString()}`)
 
             switch(topic) {
-                case MQTT_SIG_ERR: 
-                    this.err.parse(msg) 
-                    alert(this.err.headline, this.err.message, this.err.code) 
-                    console.log(this.err.toJson())
+                case MQTT_SIG_ALERT: 
+                    this.alrt.parse(msg) 
+                    showAlert(this.alrt.headline, this.alrt.message, this.alrt.code) 
+                    console.log(this.alrt.toJson())
                     break
 
                 case MQTT_SIG_ADMIN:
@@ -140,31 +159,18 @@ export class Machine {
                     break
 
                 case MQTT_SIG_CONFIG: 
-                    if( this.cfg.run                                    /* We are running at the moment */ 
-                    ) {
-                        this.cfg.parse(msg)                             // Accept this message from the machine
-                        console.log("CONFIG:", this.cfg.toJson())
-                    }
+                    this.cfg.parse(msg)                             
+                    console.log("CONFIG:", this.cfg.toJson())
                     break
 
                 case MQTT_SIG_OPS: 
-                    this.ops.parse(msg) 
-
-                    this.percentComplete = (   
-                    (   this.cfg.cycles >= 0                            /* We have a valid cycle setting */
-                    &&  this.ops.cycle_count <= this.cfg.cycles         /* we have a valid cycle count */
-                    )
-                        ? this.ops.cycle_count                          // Show the cycle count
-                        : 0                                             // Otherwise, show 0
-                    ) 
-
-                    this.position = Number(this.sta.current_height).toFixed(3)
+                    this.ops.parse(msg)       
                     console.log("OPS:", this.ops.toJson())
+                    this.findPercentComplete()
                     break
 
                 case MQTT_SIG_OPS_POS: 
                     this.sta.current_height = Number(msg).toFixed(3)
-                    this.position = Number(this.sta.current_height).toFixed(3)
                     // console.log("pos: ", this.sta.current_height)
                     break
             }
@@ -203,29 +209,29 @@ export class Machine {
 
     /* Config Commands */
     mqttCMDConfig = () => {
-        this.cfg.run = true
-        this.mqttPublish(MQTT_CMD_CONFIG, this.cfg.toCMD())
-    }
-    mqttCMDCancel = () => {
-        this.cfg.run = false
-        this.cfg.cycles = 0
-        this.cfg.height = 0.0
         this.mqttPublish(MQTT_CMD_CONFIG, this.cfg.toCMD())
     }
 
     /* Ops Commands */
     mqttCMDOps = () => {
-        this.mqttPublish(MQTT_CMD_OPS, 'yaaaaahhhh.....')
-    }
-
-    mqttCMDContinue = () => {
-        console.log("mqttCMDContinue")
-        this.mqttPublish(MQTT_CMD_OPS_CONTINUE, 'yaaaaahhhh.....')
+        console.log("mqttCMDOps")
+        this.mqttPublish(MQTT_CMD_OPS, 'send ops')
     }
 
     mqttCMDReset = () => {
-        console.log("mqttCMDReset")
-        this.mqttPublish(MQTT_CMD_OPS_RESET, 'yaaaaahhhh.....')
+        this.mqttPublish(MQTT_CMD_OPS_RESET, 'reset')
+    }
+
+    mqttCMDRun = () => {
+        this.mqttPublish(MQTT_CMD_OPS_RUN, 'run')
+    }
+
+    mqttCMDPause = () => {
+        this.mqttPublish(MQTT_CMD_OPS_PAUSE, 'run')
+    }
+
+    mqttCMDContinue = () => {
+        this.mqttPublish(MQTT_CMD_OPS_CONTINUE, 'continue')
     }
 
     /* Diagnostic Commands */
@@ -240,7 +246,9 @@ export class Machine {
     
     mqttDIAGMoveUp = () => this.mqttPublish(MQTT_DIAG_MOVE_UP, '')
     mqttDIAGMoveDown = () => this.mqttPublish(MQTT_DIAG_MOVE_DOWN, '')
+    
     mqttDIAGMotorStop = () => this.mqttPublish(MQTT_DIAG_MOTOR_STOP, '')
+    mqttDIAGMotorZero = () => this.mqttPublish(MQTT_DIAG_MOTOR_ZERO, '')
 
     mqttPublish = (topic, cmd) => {this.mqttClient.publish(topic, cmd)}
 }

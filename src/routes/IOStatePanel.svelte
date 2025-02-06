@@ -24,8 +24,7 @@
     <div class="row sec-hdr">
         <h3>IO Pin & Operational State: </h3>
         <div class="row conf-btns">
-            <ButtonIcon img={img_question} color={RGBA(BASE.GREY, 0.7)} 
-            func={GZ.mqttCMDReport} />
+            <ButtonIcon func={GZ.mqttCMDReport} img={img_question} color={RGBA(BASE.GREY, 0.7)} />
         </div>
     </div>
     

@@ -7,11 +7,21 @@
     import BarGaugeH from '$lib/common/bar_graph/BarGaugeH.svelte'
     import PanelControl from '$lib/common/panel/PanelControl.svelte'
     import ButtonIcon from '$lib/common/button_icon/ButtonIcon.svelte'
-    import img_stop from '$lib/assets/Stop.svg'
-    import img_start from '$lib/assets/Start.svg'
     import img_reset from '$lib/assets/Reset.svg'
+    import img_pause from '$lib/assets/Pause.svg'
+    import img_start from '$lib/assets/Start.svg'
 
     let GZ = $state(getContext('gizmo'))
+    
+    let showPause = $state(false)    
+    $effect(() => {
+        showPause = (    
+            GZ.ops.run          /* We have already started */
+            &&  
+            !GZ.ops.pause       /* And have not been paused */
+        )
+    })
+
 </script>
 
 <div class="col">
@@ -19,31 +29,37 @@
         <h3>Progress: </h3>
         <div class="row conf-btns">
             
-            <ButtonIcon func={GZ.mqttCMDCancel} img={img_stop} color={RGBA(BASE.RED, 0.7)} />
-            {#if GZ.ops.want_aid}
-            <ButtonIcon func={GZ.mqttCMDConfig} img={img_start} color={RGBA(BASE.SEAFOAM, 0.7)} />
+            <ButtonIcon func={GZ.mqttCMDReset} img={img_reset} color={RGBA(BASE.RED, 0.7)} />
+
+            {#if showPause}
+            <ButtonIcon func={GZ.mqttCMDPause} img={img_pause} color={RGBA(BASE.AMBER, 0.7)} />
+            <ButtonIcon img={img_start} color={RGBA(BASE.LIGHT, 0.3)} />
+            {:else}
+            <ButtonIcon img={img_pause} color={RGBA(BASE.LIGHT, 0.3)} />
+            <ButtonIcon func={GZ.mqttCMDRun} img={img_start} color={RGBA(BASE.SEAFOAM, 0.7)} />
             {/if}
 
         </div>
     </div>
+    
+    
+    <BarGaugeH  
+        color={BASE.SEAFOAM}
+        bind:num={GZ.sta.current_height}
+        max={(GZ.cfg.height === 0 ? GZ.adm.mot_inch_max : GZ.cfg.height)}
+        dec=2
+        title="POSITION"
+        unit="Inch"
+    />
     
     <BarGaugeH  
         color={BASE.SEAFOAM}
         bind:num={GZ.percentComplete}
         max={GZ.cfg.cycles}
         title="COMPLETE"
-        unit={`/\n${GZ.cfg.cycles}`}
+        unit={`/\t${GZ.cfg.cycles}`}
     />
-    
-    <BarGaugeH  
-        color={BASE.SEAFOAM}
-        bind:num={GZ.position}
-        max={(GZ.cfg.height === 0 ? 48 : GZ.cfg.height)}
-        dec=2
-        title="POSITION"
-        unit="INCH"
-    />
-    
+
 </div>
 
 <style>
