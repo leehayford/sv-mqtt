@@ -23,7 +23,7 @@
 <div class="col container">
 
     <div class="diag-control">
-        <p class="lbl">Brake</p>
+        <p class="lbl">BRAKE</p>
         <br>
         {#if GZ.sta.brake_on}
         <ButtonIcon img={img_led} color={RGBA(BASE.SEAFOAM, 0.7)} func={GZ.mqttDIAGBrakeOff} />
@@ -35,7 +35,7 @@
     </div>
 
     <div class="diag-control">
-        <p class="lbl">Magnet</p>
+        <p class="lbl">MAGNET</p>
         <br>
         {#if GZ.sta.magnet_on}
         <ButtonIcon img={img_led} color={RGBA(BASE.SEAFOAM, 0.7)} func={GZ.mqttDIAGMagnetOff} />
@@ -46,15 +46,15 @@
         <p class="state">{(GZ.sta.magnet_on ? "ON" : "OFF")}</p>
     </div>
 
-    <KeyPadControl bind:num={GZ.sta.current_height} unit={"Inch"}
-        title={"Current position"}
+    <KeyPadControl bind:num={GZ.sta.current_height} unit={"INCH"}
+        title={"POSITION"}
         note={"Distance to move (up or down) in diagnostic mode"}
         enabled={false}
         on:validate={GZ.mqttCMDAdmin}
     />
 
-    <KeyPadControl bind:num={GZ.adm.diag_inch} unit={"Inch"}
-        title={"Distance to move"}
+    <KeyPadControl bind:num={GZ.adm.diag_inch} unit={"INCH"}
+        title={"MOVE DISTANCE"}
         note={"Distance to move (up or down) in diagnostic mode"}
         enabled={true}
         on:validate={GZ.mqttCMDAdmin}

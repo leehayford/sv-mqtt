@@ -13,7 +13,9 @@
         title = $bindable("TITLE"),
         note = $bindable(""),
 
-        enabled = $bindable(false)
+        enabled = $bindable(false),
+        
+        color = $bindable(BASE.AMBER)
     } = $props()
 
     let showKeyPad = $state(false)
@@ -28,17 +30,37 @@
     bind:title 
     bind:note
     bind:showKeyPad 
+    bind:color
     on:validate
 />
 
 <div class="col">
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div class="control" onclick={openKeyPad} onkeydown={openKeyPad} >
-        <div class="title">{title}</div>
-        <div class="num {(enabled ? 'num-en' : 'num-dis')}">
+
+        <div class="title" style="
+        color:{RGBA(color, 0.65)};
+        ">
+            {title}
+        </div>
+        
+        <div class="num" style="
+        color:{(!enabled ? RGBA(BASE.GREY, 0.6) : RGBA(color, 0.7))};
+        background-color:{(enabled ? RGBA(BASE.AQUA, 0.06) : RGBA(BASE.LIGHT, 0.02))};
+        border-right: solid 0.05em {(enabled ? RGBA(BASE.AQUA, 0.1) : RGBA(BASE.LIGHT, 0.1))};
+        border-bottom: solid 0.05em {(enabled ? RGBA(BASE.AQUA, 0.1) : RGBA(BASE.LIGHT, 0.1))};
+        ">
             {(isInteger ? Number(num).toFixed(0) : Number(num).toFixed(3))}
         </div>
-        <div class="unit">{unit}</div>
+
+        <div class="unit" style="
+        color:{RGBA(color, 0.6)};
+        background-color:{RGBA(color, 0.1)};
+        border: solid 0.05em {RGBA(color, 0.3)};
+        ">
+            {unit}
+        </div>
+
     </div>
     <!-- {#if note !== ""}
     <div class="note">{note}</div>
@@ -59,11 +81,11 @@
         flex-direction: row;
         align-items: center;
         justify-content: flex-end;
-        color: var(--ylw07);
         font-size: 1.375em; 
         font-weight: 300;
         padding-left: 1em;
     }
+
     /* .note {
         color: var(--gry07);
         display: flex;
@@ -83,24 +105,13 @@
         padding: 0 0.5em;
     }
 
-    .num-en {
-        color: var(--ylw07);
-        background-color: var(--aqu005);
-    }
-    .num-dis {
-        color: var(--gry06);
-        background-color: var(--lit002);
-    }
     .unit {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: center;
         font-size: 1.25em;
-        color: var(--ylw06);
-        background-color: var(--ylw01);
         border-radius: 0.8em;
-        border: solid 0.05em var(--ylw03);
     }
 
 </style>

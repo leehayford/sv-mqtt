@@ -23,6 +23,7 @@
         max = Number.POSITIVE_INFINITY,
         min = 0,
 
+        color = $bindable(BASE.AMBER)
     } = $props()
 
     let dialog = $state()
@@ -116,7 +117,11 @@
 	onclick={(e) => { if (e.target === dialog) confirm() }}
 >
     <div class="hdr">
-        <div class="title">{title}</div>
+        <div class="title" style="
+        color:{RGBA(color, 0.65)};
+        ">
+            {title}
+        </div>
         
         <div class="btns">
             <ButtonIcon func={cancel} img={img_cancel} color={RGBA(BASE.RED, 0.7)} />
@@ -130,11 +135,24 @@
 
     <div class="unit-hdr">
         <br>
-        <div class="unit-icon">{unit}</div>
+        <div class="unit-icon" style="
+        color:{RGBA(color, 0.6)};
+        background-color:{RGBA(color, 0.1)};
+        border: solid 0.05em {RGBA(color, 0.3)};
+        ">
+            {unit}
+        </div>
     </div>
     <div class="control">
-        <ButtonIcon func={clear} color={RGBA(BASE.AQUA, 0.7)} />
-        <div class="num">{numStr}</div>
+        <ButtonIcon func={clear} color={RGBA(BASE.GREY, 0.7)} />
+        <div class="num" style="
+        color:{RGBA(color, 0.7)};
+        background-color:{RGBA(BASE.AQUA, 0.06)};
+        border-right: solid 0.05em {RGBA(BASE.AQUA, 0.1)};
+        border-bottom: solid 0.05em {RGBA(BASE.AQUA, 0.1)};
+        ">
+            {numStr}
+        </div>
     </div>
     <br>
     <div class="btn-grid">
@@ -207,18 +225,16 @@
         flex-direction: row;
         align-items: center;
         justify-content: center;
-        background-color: var(--ylw02);
-        color: var(--ylw06);
-        border-radius: 0.8em;
-        border: solid 0.05em var(--ylw04);
         font-size: 1.25em;
+        border-radius: 0.8em;
+        /* background-color: var(--ylw02);
+        color: var(--ylw06);
+        border: solid 0.05em var(--ylw04); */
     }
 
     .num {
         font-size: 1.7em; 
         font-weight: 300;
-        color: var(--ylw07);
-        background-color: var(--aqu005);
         border-top: solid 0.05em transparent;
         border-left: solid 0.05em transparent;
         border-right: solid 0.05em var(--lit01);
@@ -226,6 +242,8 @@
         border-radius: 0.15em;
         padding: 0 0.5em;
         min-width: 6.5em;
+        /* color: var(--ylw07);
+        background-color: var(--aqu005); */
     }
 
     .btn-grid {

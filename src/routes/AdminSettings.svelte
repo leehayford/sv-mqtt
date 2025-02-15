@@ -64,58 +64,58 @@
 
     </div>
 
-    <!-- Operations -->
+
+    <div class="sub-title">Timers</div>
 
     <KeyPadControl bind:num={GZ.adm.ops_tmr_hammer_usec} isInteger={true} unit={"uSec"}
-        title={"Hammer Timeout"}
+        title={"HAMMER TIMEOUT"}
         note={"Time to wait for hammer to drop before alert"}
         bind:enabled={edit} 
         on:validate={GZ.mqttCMDAdmin}
     />
 
     <KeyPadControl bind:num={GZ.adm.ops_tmr_brake_usec} isInteger={true} unit={"uSec"}
-        title={"Brake Timeout"}
+        title={"BRAKE TIMEOUT"}
         note={"Time to wait brake pressure to build or drop"}
         bind:enabled={edit}
         on:validate={GZ.mqttCMDAdmin}
     />
 
-    <KeyPadControl bind:num={GZ.adm.ops_pos_period_msec} isInteger={true} unit={"mSec"} 
-        title={"Position Update"}
-        note={"How often to send position update while moving"}
-        bind:enabled={edit}
-        on:validate={GZ.mqttCMDAdmin}
-    />
-
-    <!-- IO -->
-
     <KeyPadControl bind:num={GZ.adm.io_tmr_itr_deb_usec} isInteger={true} unit={"uSec"}
-        title={"Interrupt Check"}
+        title={"INTERRUPT CHECK"}
         note={"How often to check for interrupt pins waiting on debounce"}
         bind:enabled={edit}
         on:validate={GZ.mqttCMDAdmin}
     />
 
-    <!-- Motor -->
+    <KeyPadControl bind:num={GZ.adm.ops_pos_period_msec} isInteger={true} unit={"mSec"} 
+        title={"POSITION UPDATE"}
+        note={"How often to send position update while moving"}
+        bind:enabled={edit}
+        on:validate={GZ.mqttCMDAdmin}
+    />
+
+    
+    <div class="sub-title">Motor</div>
  
     <KeyPadControl bind:num={GZ.adm.mot_hz_low} isInteger={true} unit={"Hz"}
-        title={"Motor Low Speed"}
+        title={"LOW SPEED"}
         bind:enabled={edit}
         on:validate={GZ.mqttCMDAdmin}
     />
 
     <KeyPadControl bind:num={GZ.adm.mot_hz_high} isInteger={true} unit={"Hz"}
-        title={"Motor High Speed"}
+        title={"HIGH SPEED"}
         bind:enabled={edit}
         on:validate={GZ.mqttCMDAdmin}
     />
     <KeyPadControl bind:num={GZ.adm.mot_accel} isInteger={true} unit={"Hz / s²"}
-        title={"Motor Acceleration"}
+        title={"ACCELERATION"}
         bind:enabled={edit}
         on:validate={GZ.mqttCMDAdmin}
     />
     <KeyPadControl bind:num={GZ.adm.mot_decel} isInteger={true} unit={"Hz / s²"}
-        title={"Motor Deceleration"}
+        title={"DECELERATION"}
         bind:enabled={edit}
         on:validate={GZ.mqttCMDAdmin}
     />
@@ -127,7 +127,7 @@
     /> -->
 
     <KeyPadControl bind:num={GZ.adm.mot_steps_rev} isInteger={true} unit={"Step"}
-        title={"Motor Steps / Rev"}
+        title={"REVOLUTION STEPS"}
         bind:enabled={edit}
         on:validate={GZ.mqttCMDAdmin}
     />
@@ -139,14 +139,14 @@
     /> -->
     
     <KeyPadControl bind:num={GZ.adm.mot_inch_over} unit={"Inch"}
-        title={"Motor Overshoot"}
+        title={"OVERSHOOT"}
         note={"Distance to overshoot when returning to home position"}
         bind:enabled={edit}
         on:validate={GZ.mqttCMDAdmin}
     />
 
     <KeyPadControl bind:num={GZ.adm.diag_inch} unit={"Inch"}
-        title={"Diagnostic Move"}
+        title={"DIAGNOSTIC MOVE"}
         note={"Distance to move (up or down) in diagnostic mode"}
         bind:enabled={edit}
         on:validate={GZ.mqttCMDAdmin}
@@ -156,4 +156,10 @@
 
 <style>
 
+    .sub-title {
+        font-size: 1.6em;
+        margin-top: 0.5em;
+        margin-bottom: -0.5em;
+        color: var(--ylw07);
+    }
 </style>

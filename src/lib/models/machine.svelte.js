@@ -47,6 +47,8 @@ const MQTT_CMD_OPS_RESET = MQTT_CMD_OPS + '/reset'
 const MQTT_CMD_OPS_RUN = MQTT_CMD_OPS + '/run'
 const MQTT_CMD_OPS_PAUSE = MQTT_CMD_OPS + '/pause'
 const MQTT_CMD_OPS_CONTINUE = MQTT_CMD_OPS + '/continue'
+const MQTT_CMD_OPS_EN_AWES = MQTT_CMD_OPS + '/en_awes'
+const MQTT_CMD_OPS_DIS_AWES = MQTT_CMD_OPS + '/dis_awes'
 
 /* MQTT Command Topics - DIAGNOSTICS */
 const MQTT_DIAG_ENABLE = MQTT_DIAG_PRFX + 'enable'
@@ -187,51 +189,37 @@ export class Machine {
 
     /* MQTT publications ***************************************************************************/
 
-    mqttCMDReport = () => {
-        this.mqttPublish(MQTT_CMD_REPORT, 'yaaaaahhhh.....')
-    }
+    mqttCMDReport = () => {this.mqttPublish(MQTT_CMD_REPORT, 'yaaaaahhhh.....')}
 
     /* Admin Commands */
-    mqttCMDAdmin = () => {
-        this.mqttPublish(MQTT_CMD_ADMIN, this.adm.toCMD())
-    }
-    mqttCMDAdminSetDefaults = () => {
-        this.mqttPublish(MQTT_CMD_ADMIN_SET, this.adm.toCMD())
-    }
-    mqttCMDAdminGetDefaults = () => {
-        this.mqttPublish(MQTT_CMD_ADMIN_GET, 'yaaaaahhhh.....')
-    }
+    mqttCMDAdmin = () => {this.mqttPublish(MQTT_CMD_ADMIN, this.adm.toCMD())}
+    mqttCMDAdminSetDefaults = () => {this.mqttPublish(MQTT_CMD_ADMIN_SET, this.adm.toCMD())}
+    mqttCMDAdminGetDefaults = () => {this.mqttPublish(MQTT_CMD_ADMIN_GET, 'yaaaaahhhh.....')}
 
     /* State Commands */
-    mqttCMDState = () => {
-        this.mqttPublish(MQTT_CMD_STATE, this.sta.toCMD())
-    }
+    mqttCMDState = () => {this.mqttPublish(MQTT_CMD_STATE, this.sta.toCMD())}
 
     /* Config Commands */
-    mqttCMDConfig = () => {
-        this.mqttPublish(MQTT_CMD_CONFIG, this.cfg.toCMD())
-    }
+    mqttCMDConfig = () => {this.mqttPublish(MQTT_CMD_CONFIG, this.cfg.toCMD())}
 
     /* Ops Commands */
-    mqttCMDOps = () => {
-        console.log("mqttCMDOps")
-        this.mqttPublish(MQTT_CMD_OPS, 'send ops')
-    }
+    mqttCMDOps = () => {this.mqttPublish(MQTT_CMD_OPS, 'send ops')}
+    mqttCMDReset = () => {this.mqttPublish(MQTT_CMD_OPS_RESET, 'reset')}
+    mqttCMDRun = () => {this.mqttPublish(MQTT_CMD_OPS_RUN, 'run')}
+    mqttCMDPause = () => {this.mqttPublish(MQTT_CMD_OPS_PAUSE, 'run')}
+    mqttCMDContinue = () => {this.mqttPublish(MQTT_CMD_OPS_CONTINUE, 'continue')}
+    mqttCMDEnableAWESMode = () => {
+        this.mqttPublish(MQTT_CMD_OPS_EN_AWES, 'enable awes')
 
-    mqttCMDReset = () => {
-        this.mqttPublish(MQTT_CMD_OPS_RESET, 'reset')
+        /* TODO: REMOVE */
+        this.ops.awes_mode = true
+        this.cfg.cycles = 1
     }
+    mqttCMDDisableAWESMode = () => { 
+        this.mqttPublish(MQTT_CMD_OPS_DIS_AWES, 'disable awes')
 
-    mqttCMDRun = () => {
-        this.mqttPublish(MQTT_CMD_OPS_RUN, 'run')
-    }
-
-    mqttCMDPause = () => {
-        this.mqttPublish(MQTT_CMD_OPS_PAUSE, 'run')
-    }
-
-    mqttCMDContinue = () => {
-        this.mqttPublish(MQTT_CMD_OPS_CONTINUE, 'continue')
+        /* TODO: REMOVE */
+        this.ops.awes_mode = false
     }
 
     /* Diagnostic Commands */

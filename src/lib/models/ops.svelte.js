@@ -1,6 +1,7 @@
 export class Ops {
     
     diagnostic_mode = $state(false)
+    awes_mode = $state(false)
 
     want_estop_release = $state(false)
     want_door_close = $state(false)
@@ -34,6 +35,7 @@ export class Ops {
         let js = JSON.parse(msg) // console.log("JSON.parse(msg): ", js)
         
         this.diagnostic_mode = js.diagnostic_mode
+        this.awes_mode = js.awes_mode
         
         this.want_estop_release = js.want_estop_release
         this.want_door_close = js.want_door_close
@@ -67,6 +69,7 @@ export class Ops {
     toJson = () => {
         return {
             diagnostic_mode: this.diagnostic_mode,
+            awes_mode: this.awes_mode,
 
             want_estop_release: this.want_estop_release,
             want_door_close: this.want_door_close,

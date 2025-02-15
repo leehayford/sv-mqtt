@@ -13,7 +13,7 @@
     let GZ = $state(getContext('gizmo'))
 
     let colorOK = RGBA(BASE.SEAFOAM, 0.7)
-    let colorWarn = RGBA(BASE.AMBER, 0.8)
+    let colorWarn = RGBA(BASE.AMBER, 0.7)
     let colorFault = RGBA(BASE.RED, 0.8)
     let colorNone = RGBA(BASE.LIGHT, 0.05)
 
@@ -149,6 +149,27 @@
             opOn={colorOK} lblOpOn="HOME FOUND"
         />
 
+    {:else}
+        <Indicator name="FIST"
+            bind:io={GZ.sta.fist_limit}
+            bind:op={GZ.sta.fist_limit}
+            opOn={colorWarn} lblOpOn="CONTACT"
+            opOff={colorNone} lblOpOff=""
+        />
+        
+        <Indicator name="ANVIL"
+            bind:io={GZ.sta.anvil_limit}
+            bind:op={GZ.sta.anvil_limit}
+            opOn={colorWarn} lblOpOn="CONTACT"
+            opOff={colorNone} lblOpOff=""
+        />
+        
+        <Indicator name="HOME"
+            bind:io={GZ.sta.home_limit}
+            bind:op={GZ.sta.home_limit}
+            opOn={colorWarn} lblOpOn="CONTACT"
+            opOff={colorNone} lblOpOff=""
+        />    
     {/if}
 
 

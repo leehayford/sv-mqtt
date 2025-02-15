@@ -12,8 +12,15 @@
 
     let GZ = $state(getContext('gizmo'))
 
+    let {
+        awesColor = BASE.ORANGE
+    } = $props()
+
+    let prodMode = $state(true)
     let showRun = $state(false)
     $effect(() => {
+
+        prodMode = !GZ.ops.awes_mode
 
         showRun = ( 
             (   GZ.cfg.validate(GZ.adm.mot_inch_max)   /* We have a valid configuration */
@@ -26,6 +33,7 @@
                 GZ.ops.pause        /* And have been paused */
             )
         )
+
     })
 
 </script>
@@ -37,7 +45,11 @@
         <div class="row conf-btns">
             
             <ButtonIcon func={GZ.mqttCMDReset} img={img_reset} color={RGBA(BASE.RED, 0.7)} />
+            
+            {#if !GZ.ops.awes_mode}
             <ButtonIcon img={img_pause} color={RGBA(BASE.LIGHT, 0.3)} />
+            {/if}
+
             {#if showRun}
             <ButtonIcon func={GZ.mqttCMDRun} img={img_start} color={RGBA(BASE.SEAFOAM, 0.7)} />
             {:else}
@@ -47,21 +59,38 @@
 
     </div>
 
-    <KeyPadControl bind:num={GZ.cfg.height} unit={"Inch"}
-        title={"Drop Height"}
+    <KeyPadControl bind:num={GZ.cfg.height} unit={"INCH"}
+        title={"DROP HEIGHT"}
         enabled={true}
+        color={(prodMode ? BASE.AMBER : awesColor )}
         on:validate={GZ.mqttCMDConfig}
     />
 
-    <KeyPadControl bind:num={GZ.cfg.cycles} isInteger={true} unit={"Qty"}
-        title={"# of Drops"}
-        enabled={true}
+    {#if !GZ.ops.awes_mode}
+    <KeyPadControl bind:num={GZ.cfg.cycles} isInteger={true} unit={"QTY"}
+        title={"# OF DROPS"}
+        bind:enabled={prodMode}
         on:validate={GZ.mqttCMDConfig}
     />
+    {:else}
+    <div class="awes-drops" style="color:{RGBA(awesColor, 0.4)}">
+            AWES mode is a single drop opration.
+    </div>
+    {/if}
 
 </div>
 
 <style>
 
+.awes-drops {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    /* min-height: 1.7em;
+    max-height: 1.7em; */
+    height: 1.7em;
+}
 
 </style>

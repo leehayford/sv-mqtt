@@ -58,7 +58,8 @@ export const BASE = {
     AQUA: REDSEED.c1c,
     SKYBLUE: REDSEED.c1y,
     BLUE: REDSEED.c3,
-    PURPLE: REDSEED.c3x,
+    // PURPLE: REDSEED.c3x,
+    PURPLE: "200, 0, 210",
     PINK: REDSEED.c2c,
     MAGENTA: REDSEED.c2y,
 }

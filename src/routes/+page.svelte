@@ -19,6 +19,19 @@
 
     let GZ = $state(getContext('gizmo'))
 
+    let prodBtnText = RGBA(BASE.AMBER, 0.7)
+    let prodBtnBG = RGBA(BASE.AMBER, 0.1)
+    let prodBtnBorder = RGBA(BASE.AMBER, 0.3)
+
+    let awesColor = BASE.AQUA
+    let awesBtnText = RGBA(awesColor, 0.7)
+    let awesBtnBG = RGBA(awesColor, 0.1)
+    let awesBtnBorder = RGBA(awesColor, 0.3)
+    
+    let inactiveBtnText = RGBA(BASE.LIGHT, 0.3)
+    let inactiveBtnBG = RGBA(BASE.LIGHT, 0.05)
+    let inactiveBtnBorder = RGBA(BASE.LIGHT, 0.1)
+
     // const alertTestError = () => {
     //     showAlert("Error Headline Text", "error message text, which is usually longer", ALERT_CODES.ERROR)
     // }
@@ -70,9 +83,30 @@
                     <ButtonIcon func={GZ.mqttCMDContinue} img={img_accept} color={RGBA(BASE.SEAFOAM, 0.7)} />
                 </div>
             </div>
+            {:else}
+            <div class="mode">
+                <!-- svelte-ignore a11y_no_static_element_interactions -->
+                <div class="mode-btn" style="
+                    color:{(!GZ.ops.awes_mode ? prodBtnText : inactiveBtnText)};
+                    background-color:{(!GZ.ops.awes_mode ? prodBtnBG : inactiveBtnBG)};
+                    border: solid 0.05em {(!GZ.ops.awes_mode ? prodBtnBorder : inactiveBtnBorder)};"
+                    onclick={GZ.mqttCMDDisableAWESMode} onkeypress={GZ.mqttCMDDisableAWESMode}>
+                    Production Mode
+                </div>
+  
+                <!-- svelte-ignore a11y_no_static_element_interactions -->
+                <div class="mode-btn" style="
+                    color:{(GZ.ops.awes_mode ? awesBtnText : inactiveBtnText)};
+                    background-color:{(GZ.ops.awes_mode ? awesBtnBG : inactiveBtnBG)};
+                    border: solid 0.05em {(GZ.ops.awes_mode ? awesBtnBorder : inactiveBtnBorder)};"
+                    onclick={GZ.mqttCMDEnableAWESMode} onkeypress={GZ.mqttCMDEnableAWESMode}>
+                    AWES Mode
+                </div>
+
+            </div>
             {/if}
 
-            {#if !GZ.ops.run} <ConfigPanel />
+            {#if !GZ.ops.run} <ConfigPanel awesColor={awesColor} />
 
             {:else} <ProgressPanel />
 
@@ -108,7 +142,6 @@
         font-weight: 350;
         gap:0;
     }
-
     .hdr-status {
         align-items: center;
         color: var(--ylw07);
@@ -116,23 +149,36 @@
         font-weight: 300;
     }
 
+    .controls {
+        padding-bottom: 1em;
+        gap: 1.5em;
+    }
+    
     .aid-prompt {
         background-color: var(--ong03);
         align-items: center;
         justify-content: space-between;
         border-radius: 2em;
-        /* border-bottom-left-radius: 2em;
-        border-bottom-right-radius: 2em; */
         padding: 0.5em 1em;
     }
     .aid-prompt h3 {
         color: var(--ong06);
     }
 
-    .controls {
-        padding-bottom: 1em;
-        gap: 1.5em;
+    .mode {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap:1em;
     }
 
+    .mode-btn {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5em;
+        border-radius: 2em;
+        padding: 0.5em 1em;
+    }
 
 </style>
