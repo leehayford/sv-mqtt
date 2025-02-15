@@ -48,7 +48,7 @@
 
     <div class="row hdr">
 
-        <div class="row hdr-title">2Chainz</div>
+        <div class="row hdr-title">{(GZ.ops.awes_mode ? "G Unit" : "2Chainz")}</div>
         
         <div class="row hdr-status">{GZ.ops.status}</div>
         
@@ -137,7 +137,7 @@
     }
     .hdr-title {
         color: var(--aqu07);
-        width: auto;
+        width: 4.5em;
         font-size: 2.2em; 
         font-weight: 350;
         gap:0;

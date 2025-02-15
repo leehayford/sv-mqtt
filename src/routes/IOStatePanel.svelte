@@ -150,13 +150,14 @@
         />
 
     {:else}
-        <Indicator name="FIST"
+        <Indicator name={(GZ.ops.awes_mode ? "HOME" : "FIST")}
             bind:io={GZ.sta.fist_limit}
             bind:op={GZ.sta.fist_limit}
             opOn={colorWarn} lblOpOn="CONTACT"
             opOff={colorNone} lblOpOff=""
         />
         
+        {#if !GZ.ops.awes_mode}
         <Indicator name="ANVIL"
             bind:io={GZ.sta.anvil_limit}
             bind:op={GZ.sta.anvil_limit}
@@ -169,7 +170,8 @@
             bind:op={GZ.sta.home_limit}
             opOn={colorWarn} lblOpOn="CONTACT"
             opOff={colorNone} lblOpOff=""
-        />    
+        /> 
+        {/if}   
     {/if}
 
 
