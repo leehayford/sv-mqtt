@@ -1,6 +1,6 @@
 export class Ops {
     
-    diagnostic_mode = $state(true)
+    diagnostic_mode = $state(false)
     awes_mode = $state(false)
 
     want_estop_release = $state(false)

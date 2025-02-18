@@ -25,7 +25,7 @@
     let showKeyPad = $state(false)
     const openKeyPad = () => {
         if(enabled) {
-            if(original === Number.NEGATIVE_INFINITY) original = num
+            original = num // console.log("original: ", original)
             if(clearOnOpen) num = 0.0
             showKeyPad = true
         }
