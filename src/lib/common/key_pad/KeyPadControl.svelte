@@ -13,13 +13,23 @@
         title = $bindable("TITLE"),
         note = $bindable(""),
 
+        clearOnOpen = $bindable(true),
         enabled = $bindable(false),
         
         color = $bindable(BASE.AMBER)
     } = $props()
 
+    let original = $state(Number.NEGATIVE_INFINITY)
+    const cancel = () => {num = original}
+
     let showKeyPad = $state(false)
-    const openKeyPad = () => {if(enabled) showKeyPad = true}
+    const openKeyPad = () => {
+        if(enabled) {
+            if(original === Number.NEGATIVE_INFINITY) original = num
+            if(clearOnOpen) num = 0.0
+            showKeyPad = true
+        }
+    }
 
 </script>
 
@@ -32,6 +42,7 @@
     bind:showKeyPad 
     bind:color
     on:validate
+    on:cancel={cancel}
 />
 
 <div class="col">

@@ -30,13 +30,10 @@
 
     let numStr = $state("")
 
-    let original = $state(Number.NEGATIVE_INFINITY)
-
     $effect(() => {
         if(showKeyPad) {
             numStr = num.toString()
             dialog.showModal()
-            if( original === Number.NEGATIVE_INFINITY) original = num
         }
     })
 
@@ -99,8 +96,9 @@
     }
 
     const cancel = () => {
-        num = original
-        numStr = num.toString()
+        // num = original
+        // numStr = num.toString()
+        dispatch("cancel") 
         closeDialog()
     }
 
